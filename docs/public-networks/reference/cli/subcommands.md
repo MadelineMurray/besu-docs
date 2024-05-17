@@ -215,6 +215,31 @@ besu --data-path=<node data path> public-key export-address --node-private-key-f
 
 Outputs the node address to standard output or to the file specified by `--to=<address-file>`. You can output the address associated with a specific private key file using the [`--node-private-key-file`](options.md#node-private-key-file) option. The default elliptic curve used for the key is `secp256k1`. Use the `--ec-curve` option to choose between `secp256k1` or `secp256r1`.
 
+## `decode`
+
+Provides RLP decoding functionality for BFT encoded RLP extra data.
+
+### `rlp`
+
+<!--tabs-->
+
+# Syntax
+
+```bash
+besu rlp decode [--format=<FORMAT>] [--input=<RLP>]
+```
+
+# Example
+
+```bash
+besu rlp decode --format=IBFT_LEGACY --input=0xf9011a...
+```
+
+<!--/tabs-->
+
+Decodes the RLP (Recursive Length Prefix) encoded data. You can specify the format of the BFT encoded RLP extra data with `--format`. The supported formats are `IBFT_LEGACY`, `IBFT2`, and `QBFT`.
+
+Include the RLP encoded data to decode with `--input`. The input should be a hex string representing the RLP encoded data.
 ## `retesteth`
 
 <!--tabs-->
@@ -288,4 +313,44 @@ besu validate-config --config-file ../besu-local-nodes/config/besu/besu1.conf
 
 <!--/tabs-->
 
+<<<<<<< HEAD
 Performs basic syntax validation of the specified [configuration file](../../how-to/configuration-file.md). Checks TOML syntax (for example, valid format and unmatched quotes) and flags unknown options. Doesn't check data types, and doesn't check dependencies between options (this is done at Besu startup).
+||||||| parent of de2f9142 (Apply patch to add documentation for decode subcommand)
+</Tabs>
+
+Performs basic syntax validation of the specified [configuration file](../../how-to/use-configuration-file/index.md). Checks TOML syntax (for example, valid format and unmatched quotes) and flags unknown options. Doesn't check data types, and doesn't check dependencies between options (this is done at Besu startup).
+=======
+</Tabs>
+
+Performs basic syntax validation of the specified [configuration file](../../how-to/use-configuration-file/index.md). Checks TOML syntax (for example, valid format and unmatched quotes) and flags unknown options. Doesn't check data types, and doesn't check dependencies between options (this is done at Besu startup).
+
+## `decode`
+
+Provides RLP decoding functionality for BFT encoded RLP extra data.
+
+### `rlp`
+
+<Tabs>
+
+<TabItem value="Syntax" label="Syntax" default>
+
+```bash
+besu rlp decode [--format=<FORMAT>] [--input=<RLP>]
+```
+
+</TabItem>
+
+<TabItem value="Example" label="Example">
+
+```bash
+besu rlp decode --format=IBFT_LEGACY --input=0xf9011a...
+```
+
+</TabItem>
+
+</Tabs>
+
+Decodes the RLP (Recursive Length Prefix) encoded data. You can specify the format of the BFT encoded RLP extra data with `--format`. The supported formats are `IBFT_LEGACY`, `IBFT2`, and `QBFT`.
+
+Include the RLP encoded data to decode with `--input`. The input should be a hex string representing the RLP encoded data.
+>>>>>>> de2f9142 (Apply patch to add documentation for decode subcommand)
