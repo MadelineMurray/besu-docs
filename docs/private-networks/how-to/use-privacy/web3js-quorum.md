@@ -1,10 +1,13 @@
 ---
 title: Use the web3js-quorum library
 description: web3js-quorum client library
-sidebar_position: 9
+sidebar_position: 8
 tags:
   - private networks
 ---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # Use the web3js-quorum client library
 
@@ -37,13 +40,15 @@ npm install web3js-quorum
 
 ## Initialize the web3js-quorum client
 
-Initialize your client where:
+Initialize your client where `<JSON-RPC HTTP endpoint>` is the JSON-RPC HTTP endpoint of your
+Hyperledger Besu node.
+Specified by the [`--rpc-http-host`](../../../public-networks/reference/cli/options.md#rpc-http-host)
+and [`--rpc-http-port`](../../../public-networks/reference/cli/options.md#rpc-http-port) command
+line options.
 
-- `<JSON-RPC HTTP endpoint>` is the JSON-RPC HTTP endpoint of your Hyperledger Besu node. Specified by the [`--rpc-http-host`](../../../public-networks/reference/cli/options.md#rpc-http-host) and [`--rpc-http-port`](../../../public-networks/reference/cli/options.md#rpc-http-port) command line options.
+<Tabs>
 
-<!--tabs-->
-
-# Syntax
+<TabItem value="Syntax" label="Syntax" default>
 
 ```js
 const { Web3 } = require("web3");
@@ -51,7 +56,9 @@ const Web3Quorum = require("web3js-quorum");
 const web3 = new Web3Quorum(new Web3("<JSON-RPC HTTP endpoint>"));
 ```
 
-# Example
+</TabItem>
+
+<TabItem value="Example" label="Example">
 
 ```js
 const { Web3 } = require("web3");
@@ -59,7 +66,9 @@ const Web3Quorum = require("web3js-quorum");
 const web3 = new Web3Quorum(new Web3("http://localhost:8545"));
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 :::note
 

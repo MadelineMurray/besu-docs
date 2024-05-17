@@ -24,7 +24,7 @@ To delete the local block data, delete the `database` directory in the `besu/bui
 
 ## Genesis configuration
 
-Besu specifies the genesis configuration, and sets the network ID and bootnodes when connecting to [Goerli](#run-a-node-on-goerli-testnet), [Sepolia](#run-a-node-on-sepolia-testnet), and [Mainnet](#run-a-node-on-ethereum-mainnet).
+Besu specifies the genesis configuration, and sets the network ID and bootnodes when connecting to [Holesky](#run-a-node-on-holesky-testnet), [Sepolia](#run-a-node-on-sepolia-testnet), and [Mainnet](#run-a-node-on-ethereum-mainnet).
 
 :::info
 
@@ -45,7 +45,7 @@ By default, Besu syncs to the current state of the blockchain using [fast sync](
 - Networks specified using [`--network`](../reference/cli/options.md#network) except for the `dev` development network.
 - Ethereum Mainnet.
 
-We recommend using [snap sync](connect/sync-node.md#snap-synchronization) for a faster sync, by starting Besu with [`--sync-mode=X_SNAP`](../reference/cli/options.md#sync-mode).
+We recommend using [snap sync](connect/sync-node.md#snap-synchronization) for a faster sync, by starting Besu with [`--sync-mode=SNAP`](../reference/cli/options.md#sync-mode).
 
 By default, Besu stores data in the [Forest of Tries](../concepts/data-storage-formats.md#forest-of-tries) format. We recommend using [Bonsai Tries](../concepts/data-storage-formats.md#bonsai-tries) for lower storage requirements, by starting Besu with [`--data-storage-format=BONSAI`](../reference/cli/options.md#data-storage-format).
 
@@ -57,7 +57,7 @@ To run a node that mines blocks at a rate suitable for testing purposes:
 besu --network=dev --miner-enabled --miner-coinbase=0xfe3b557e8fb62b89f4916b721be55ceb828dbd73 --rpc-http-cors-origins="all" --host-allowlist="*" --rpc-ws-enabled --rpc-http-enabled --data-path=/tmp/tmpDatdir
 ```
 
-You can also use the following [configuration file](../how-to/configuration-file.md) on the command line to start a node with the same options as above:
+You can also use the following [configuration file](../how-to/use-configuration-file/index.md) on the command line to start a node with the same options as above:
 
 ```toml
 network="dev"
@@ -80,18 +80,6 @@ The following settings are a security risk in production environments:
 
 :::
 
-## Run a node on Goerli testnet
-
-To run a node on [Goerli](https://github.com/goerli/testnet) specifying a data directory:
-
-```bash
-besu --network=goerli --data-path=<path>/<goerlidata-path>
-```
-
-Where `<path>` and `<goerlidata-path>` are the path and directory to save the Goerli chain data to.
-
-See the [guide on connecting to a testnet](connect/testnet.md) for more information.
-
 ## Run a node on Holesky testnet
 
 To run a node on [Holesky](https://github.com/eth-clients/holesky) specifying a data directory:
@@ -106,7 +94,7 @@ See the [guide on connecting to a testnet](connect/testnet.md) for more informat
 
 ## Run a node on Sepolia testnet
 
-To run a node on [Sepolia](https://github.com/goerli/sepolia) specifying a data directory:
+To run a node on [Sepolia](https://github.com/eth-clients/sepolia) specifying a data directory:
 
 ```bash
 besu --network=sepolia --data-path=<path>/<sepoliadata-path>

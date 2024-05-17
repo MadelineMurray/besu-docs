@@ -1,5 +1,5 @@
-const lightCodeTheme = require("prism-react-renderer/themes/dracula");
-const darkCodeTheme = require("prism-react-renderer/themes/dracula");
+const lightCodeTheme = require("prism-react-renderer").themes.github;
+const darkCodeTheme = require("prism-react-renderer").themes.dracula;
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
@@ -37,7 +37,7 @@ const config = {
           path: "./docs",
           includeCurrentVersion: true,
           // Set to the last stable release
-          lastVersion: "23.10.2",
+          lastVersion: "24.5.0",
           versions: {
             //defaults to the ./docs folder
             // using 'development' instead of 'next' as path
@@ -46,35 +46,31 @@ const config = {
               path: "development",
             },
             // The last stable release in the versioned_docs/version-stable
+            "24.5.0": {
+              label: "stable (24.5.0)",
+            },
+            "24.3.0": {
+              label: "24.3.0",
+            },
+            "24.1.0": {
+              label: "24.1.0",
+            },
+            "23.10.3": {
+              label: "23.10.3",
+            },
             "23.10.2": {
-              label: "stable (23.10.2)",
-            },
-            "23.10.1": {
-              label: "23.10.1",
-            },
-            "23.10.0": {
-              label: "23.10.0",
+              label: "23.10.2",
             },
             "23.7.3": {
               label: "23.7.3",
             },
-            "23.7.2": {
-              label: "23.7.2",
-            },
-            "23.7.1": {
-              label: "23.7.1",
-            },
             "23.4.1": {
               label: "23.4.1",
-            },
-            "23.4.0": {
-              label: "23.4.0",
             },
           },
           routeBasePath: "/",
           // @ts-ignore
           // eslint-disable-next-line global-require
-          remarkPlugins: [require("remark-docusaurus-tabs")],
           include: ["**/*.md", "**/*.mdx"],
           exclude: [
             "**/_*.{js,jsx,ts,tsx,md,mdx}",
@@ -252,7 +248,7 @@ const config = {
       prism: {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
-        additionalLanguages: ["solidity", "toml"],
+        additionalLanguages: ["solidity", "toml", "java"],
       },
       languageTabs: [
         {
@@ -296,6 +292,14 @@ const config = {
       {
         redirects: [
           {
+            from: ["/en/latest", "/en/development", "/latest", "/development"],
+            to: "/development/public-networks",
+          },
+          {
+            from: "/public-networks/how-to/configuration-file",
+            to: "/public-networks/how-to/use-configuration-file",
+          },
+          {
             from: "/private-networks/tutorials/permissioning/onchain",
             to: "/private-networks/how-to/use-permissioning/onchain",
           },
@@ -304,6 +308,22 @@ const config = {
             to: "/private-networks/how-to/use-permissioning/onchain",
           },
         ],
+        createRedirects(existingPath) {
+          if (existingPath.includes("/development")) {
+            return [
+              existingPath.replace("/development", "/en/development"),
+              existingPath.replace("/development", "/en/latest"),
+              existingPath.replace("/development", "/latest"),
+            ];
+          }
+          if (existingPath.includes("/")) {
+            return [
+              existingPath.replace("/", "/en/stable"),
+              existingPath.replace("/", "/stable"),
+            ];
+          }
+          return undefined; // Return a falsy value: no redirect created
+        },
       },
     ],
   ],

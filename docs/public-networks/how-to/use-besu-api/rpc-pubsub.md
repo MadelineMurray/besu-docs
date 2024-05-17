@@ -7,6 +7,9 @@ tags:
   - private networks
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Use RPC Pub/Sub over WebSockets
 
 ## Introduction
@@ -75,26 +78,11 @@ Subscribing to some events (for example, logs) can cause a flood of notification
 
 Use `eth_subscribe` to create subscriptions for the following event types:
 
-- [Use RPC Pub/Sub over WebSockets](#use-rpc-pubsub-over-websockets)
-  - [Introduction](#introduction)
-    - [Use RPC Pub/Sub](#use-rpc-pubsub)
-    - [Subscription ID](#subscription-id)
-    - [Notifications when synchronizing](#notifications-when-synchronizing)
-  - [Subscribe](#subscribe)
-    - [New headers](#new-headers)
-    - [Logs](#logs)
-- [All logs](#all-logs)
-- [Specific address, topic, fromBlock and toBlock](#specific-address-topic-fromblock-and-toblock)
-- [Result](#result)
-- [Notification](#notification)
-- [All logs for privacy group](#all-logs-for-privacy-group)
-- [Specific address and topic](#specific-address-and-topic)
-- [Result](#result-1)
-- [Notification](#notification-1)
-  - [Pending transactions](#pending-transactions)
-  - [Dropped transactions](#dropped-transactions)
-  - [Synchronizing](#synchronizing)
-  - [Unsubscribe](#unsubscribe)
+- [New headers](#new-headers)
+- [Logs](#logs)
+- [Pending transactions](#pending-transactions)
+- [Dropped transactions](#dropped-transactions)
+- [Synchronizing](#synchronizing)
 
 Use `priv_subscribe` to [create subscriptions for logs on private contracts](#logs).
 
@@ -202,7 +190,7 @@ Example notification with the `{"includeTransactions": true}` parameter included
 
 To notify you about [logs](../../concepts/events-and-logs.md) included in new blocks, use the `logs` parameter with `eth_subscribe` or `priv_subscribe`. Specify a filter object to receive notifications only for logs matching your filter.
 
-Logs subscriptions have an filter object parameter with the following fields:
+Logs subscriptions have a filter object parameter with the following fields:
 
 - `address` - (optional) Either an address or an array of addresses. Returns only logs created from these addresses.
 - `topics` - (optional) Returns only logs that match the [specified topics](../../concepts/events-and-logs.md#topic-filters).
@@ -215,15 +203,20 @@ If a chain reorganization occurs, the subscription publishes notifications for l
 
 The logs subscription returns [log objects](../../reference/api/objects.md#log-object).
 
-<!--tabs-->
+<Tabs>
 
-# All logs
+<TabItem value="All logs" label="All logs" default>
 
 ```json
-{ "id": 1, "method": "eth_subscribe", "params": ["logs", {}] }
+{ 
+  "id": 1, 
+  "method": "eth_subscribe", 
+  "params": ["logs", {}]
+}
 ```
 
-# Specific address, topic, fromBlock and toBlock
+</TabItem>
+<TabItem value="Specific parameters">
 
 ```json
 {
@@ -243,13 +236,17 @@ The logs subscription returns [log objects](../../reference/api/objects.md#log-o
 }
 ```
 
-# Result
+</TabItem>
+
+<TabItem value="Result" label="Result">
 
 ```json
 { "jsonrpc": "2.0", "id": 1, "result": "0x2" }
 ```
 
-# Notification
+</TabItem>
+
+<TabItem value="Notification" label="Notification">
 
 ```json
 {
@@ -275,11 +272,13 @@ The logs subscription returns [log objects](../../reference/api/objects.md#log-o
 }
 ```
 
-<!--/tabs-->
+</TabItem>
 
-<!--tabs-->
+</Tabs>
 
-# All logs for privacy group
+<Tabs>
+
+<TabItem value="All logs for privacy group" label="All logs for privacy group" default>
 
 ```json
 {
@@ -289,7 +288,9 @@ The logs subscription returns [log objects](../../reference/api/objects.md#log-o
 }
 ```
 
-# Specific address and topic
+</TabItem>
+
+<TabItem value="Specific parameters">
 
 ```json
 {
@@ -308,13 +309,17 @@ The logs subscription returns [log objects](../../reference/api/objects.md#log-o
 }
 ```
 
-# Result
+</TabItem>
+
+<TabItem value="Result" label="Result">
 
 ```json
 { "jsonrpc": "2.0", "id": 1, "result": "0x1" }
 ```
 
-# Notification
+</TabItem>
+
+<TabItem value="Notification" label="Notification">
 
 ```json
 {
@@ -341,7 +346,9 @@ The logs subscription returns [log objects](../../reference/api/objects.md#log-o
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### Pending transactions
 

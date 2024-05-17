@@ -6,6 +6,9 @@ tags:
   - private networks
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Configure free gas networks
 
 Transactions use computational resources so have an associated cost. Gas is the cost unit and the gas price is the price per gas unit. The transaction cost is the gas used \* gas price.
@@ -68,23 +71,25 @@ In the `config` section of the genesis file, set the contract size limit to the 
 
 When starting nodes, set the [minimum gas price](../../../public-networks/reference/cli/options.md#min-gas-price) to zero.
 
-<!--tabs-->
+<Tabs>
 
-# Command Line
+<TabItem value="Command line" default>
 
 ```bash
 --min-gas-price=0
 ```
 
-# Configuration File
+</TabItem>
+
+<TabItem value="Configuration file">
 
 ```bash
 min-gas-price=0
 ```
 
-<!--/tabs-->
+</TabItem>
 
-# Command Line
+</Tabs>
 
 :::danger Important
 
@@ -135,4 +140,18 @@ Update the `hardhat.config.js` file:
 
    ```js
    gas: "0x1ffffffffffffe";
+   ```
+
+   Setting `gasPrice` to `0` should cover transaction costs for most deployments.
+
+1. Specify `evmVersion` when using the latest Solidity version.
+
+   ```js
+   solidity: {
+      version: "0.8.20",
+      settings: {
+        evmVersion: "london", // required for Besu
+        optimizer: {...},
+      },
+    },
    ```

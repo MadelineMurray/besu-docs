@@ -24,7 +24,7 @@ To find peers, configure one or more bootnodes. To configure a specific set of p
 
 :::note Mainnet and public testnets
 
-For Mainnet and the Sepolia and Goerli testnets, Hyperledger Besu has an internal list of enode URLs and uses this list automatically when you specify the [`--network`](../../../public-networks/reference/cli/options.md#network) option.
+For Mainnet and the Sepolia and Holesky testnets, Hyperledger Besu has an internal list of enode URLs and uses this list automatically when you specify the [`--network`](../../../public-networks/reference/cli/options.md#network) option.
 
 :::
 
@@ -42,7 +42,7 @@ By default, peer discovery listens on all available network interfaces. If the d
 
 ## Configure bootnodes in a production network
 
-A network must have at least one operating bootnode. To allow for continuity in the event of failure, configure two or more bootnodes in a production network.
+A network must have at least one operating bootnode. To allow for continuity in the event of failure, configure two or more bootnodes in a production network. If you don't configure any bootnodes, Besu uses Mainnet's default bootnodes.
 
 We don't recommend putting bootnodes behind a load balancer because the [enode](../../../public-networks/concepts/node-keys.md#enode-url) relates to the node public key, IP address, and discovery ports. Any changes to a bootnode enode prevents other nodes from being able to establish a connection with the bootnode. This is why we recommend putting more bootnodes on the network itself.
 

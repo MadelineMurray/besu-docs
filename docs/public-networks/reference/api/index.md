@@ -2,12 +2,15 @@
 title: Besu API
 sidebar_position: 2
 description: Hyperledger Besu JSON-RPC API methods reference
+toc_max_heading_level: 3
 tags:
   - public networks
   - private networks
 ---
 
 import Postman from '../../../global/postman.md'
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # Besu API methods
 
@@ -49,21 +52,25 @@ If connections are timing out, ensure the node ID in the [enode URL](../../conce
 
 `result`: _boolean_ - `true` if peer added or `false` if peer already a [static node](../../how-to/connect/static-nodes.md)
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"admin_addPeer","params":["enode://f59c0ab603377b6ec88b89d5bb41b98fc385030ab1e4b03752db6f7dab364559d92c757c13116ae6408d2d33f0138e7812eb8b696b2a22fe3332c4b5127b22a3@127.0.0.1:30304"],"id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```bash
 {"jsonrpc":"2.0","method":"admin_addPeer","params":["enode://f59c0ab603377b6ec88b89d5bb41b98fc385030ab1e4b03752db6f7dab364559d92c757c13116ae6408d2d33f0138e7812eb8b696b2a22fe3332c4b5127b22a3@127.0.0.1:30304"],"id":1}
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -73,7 +80,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"admin_addPeer","params":["enode:
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `admin_changeLogLevel`
 
@@ -93,21 +102,25 @@ You can specify only one log level per RPC call.
 
 The following example changes the debug level for specified classes to `DEBUG`.
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0", "method":"admin_changeLogLevel", "params":["DEBUG", ["org.hyperledger.besu.ethereum.eth.manager","org.hyperledger.besu.ethereum.p2p.rlpx.connections.netty.ApiHandler"]], "id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```bash
 {"jsonrpc":"2.0", "method":"admin_changeLogLevel", "params":["DEBUG", ["org.hyperledger.besu.ethereum.eth.manager","org.hyperledger.besu.ethereum.p2p.rlpx.connections.netty.ApiHandler"]], "id":1}
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -117,19 +130,23 @@ curl -X POST --data '{"jsonrpc":"2.0", "method":"admin_changeLogLevel", "params"
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 The following example changes the debug level of all logs to `WARN`.
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"admin_changeLogLevel","params":["WARN"], "id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```json
 {
@@ -140,7 +157,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"admin_changeLogLevel","params":[
 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -150,7 +169,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"admin_changeLogLevel","params":[
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `admin_generateLogBloomCache`
 
@@ -188,15 +209,17 @@ Each index file contains 100000 blocks. The last fragment of blocks less than 10
 
 - _boolean_ - indicates acceptance of the request from this call to generate the cache
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{jsonrpc":"2.0","method":"admin_generateLogBloomCache", "params":["0x0", "0x10000"], "id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```json
 {
@@ -207,7 +230,9 @@ curl -X POST --data '{jsonrpc":"2.0","method":"admin_generateLogBloomCache", "pa
 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -223,7 +248,9 @@ curl -X POST --data '{jsonrpc":"2.0","method":"admin_generateLogBloomCache", "pa
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `admin_logsRemoveCache`
 
@@ -231,9 +258,17 @@ Removes cache files for the specified range of blocks.
 
 #### Parameters
 
-- `fromBlock`: _string_ - hexadecimal or decimal integer representing a block number or one of the string tags `latest`, `earliest`, `pending`, `finalized`, or `safe`, as described in [block parameter](../../how-to/use-besu-api/json-rpc.md#block-parameter)
+- `fromBlock`: _string_ - hexadecimal or decimal integer representing a block number, or one of the
+  string tags `latest`, `earliest`, `pending`, `finalized`, or `safe`, as described in
+  [block parameter](../../how-to/use-besu-api/json-rpc.md#block-parameter)
 
-- `toBlock`: _string_ - hexadecimal or decimal integer representing a block number or one of the string tags `latest`, `earliest`, `pending`, `finalized`, or `safe`, as described in [block parameter](../../how-to/use-besu-api/json-rpc.md#block-parameter)
+- `toBlock`: _string_ - hexadecimal or decimal integer representing a block number, or one of the
+  string tags `latest`, `earliest`, `pending`, `finalized`, or `safe`, as described in
+  [block parameter](../../how-to/use-besu-api/json-rpc.md#block-parameter)
+
+:::note
+`pending` returns the same value as `latest`.
+:::
 
 You can skip a parameter by using an empty string, `""`. If you specify:
 
@@ -247,15 +282,17 @@ You can skip a parameter by using an empty string, `""`. If you specify:
 
 `result`: _object_ - `Cache Removed` status or `error`.
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"admin_logsRemoveCache","params":["1", "100"], "id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```json
 {
@@ -266,7 +303,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"admin_logsRemoveCache","params":
 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -278,7 +317,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"admin_logsRemoveCache","params":
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `admin_logsRepairCache`
 
@@ -292,15 +333,17 @@ Repairs cached logs by fixing all segments starting with the specified block num
 
 `result`: _object_ - status of the repair request; `Started` or `Already running`
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"admin_logsRepairCache","params":["1200"], "id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```json
 {
@@ -311,7 +354,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"admin_logsRepairCache","params":
 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -323,7 +368,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"admin_logsRepairCache","params":
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `admin_nodeInfo`
 
@@ -355,21 +402,25 @@ If the node is running locally, the host of the `enode` and `listenAddr` display
 
 :::
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"admin_nodeInfo","params":[],"id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```bash
 {"jsonrpc":"2.0","method":"admin_nodeInfo","params":[],"id":1}
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -411,7 +462,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"admin_nodeInfo","params":[],"id"
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `admin_peers`
 
@@ -441,21 +494,25 @@ None
 
 - `enode`: _string_ - enode URL of the remote node
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"admin_peers","params":[],"id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```bash
 {"jsonrpc":"2.0","method":"admin_peers","params":[],"id":1}
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -485,7 +542,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"admin_peers","params":[],"id":1}
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `admin_removePeer`
 
@@ -499,21 +558,25 @@ Removes a [static node](../../how-to/connect/static-nodes.md).
 
 `result`: _boolean_ - `true` if peer removed or `false` if peer not a [static node](../../how-to/connect/static-nodes.md)
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"admin_removePeer","params":["enode://f59c0ab603377b6ec88b89d5bb41b98fc385030ab1e4b03752db6f7dab364559d92c757c13116ae6408d2d33f0138e7812eb8b696b2a22fe3332c4b5127b22a3@127.0.0.1:30304"],"id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```bash
 {"jsonrpc":"2.0","method":"admin_removePeer","params":["enode://f59c0ab603377b6ec88b89d5bb41b98fc385030ab1e4b03752db6f7dab364559d92c757c13116ae6408d2d33f0138e7812eb8b696b2a22fe3332c4b5127b22a3@127.0.0.1:30304"],"id":1}
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -523,7 +586,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"admin_removePeer","params":["eno
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ## `DEBUG` methods
 
@@ -555,21 +620,23 @@ Returns account information at the specified index of the specified block.
 
 - `nonce`: _quantity_ - number of transactions made by the account before this one
 
-- `balance`: _quantity_ - balance of the account in Wei
+- `balance`: _quantity_ - balance of the account in wei
 
 - `codehash`: _data_ - code hash for the account
 
 This example uses an externally owned account address for the `address` parameter.
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"debug_accountAt","params":["0xc8df1f061abb4d0c107b2b1a794ade8780b3120e681f723fe55a7be586d95ba6", 0, "0xbcde5374fce5edbc8e2a8697c15331677e6ebf0b"],"id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```json
 {
@@ -584,7 +651,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"debug_accountAt","params":["0xc8
 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -599,19 +668,23 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"debug_accountAt","params":["0xc8
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 This example uses a contract address for the `address` parameter.
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"debug_accountAt","params":["0x2b76b3a2fc44c0e21ea183d06c846353279a7acf12abcc6fb9d5e8fb14ae2f8c", 0, "0x0e0d2c8f7794e82164f11798276a188147fbd415"],"id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```json
 {
@@ -626,7 +699,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"debug_accountAt","params":["0x2b
 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -641,7 +716,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"debug_accountAt","params":["0x2b
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `debug_accountRange`
 
@@ -667,15 +744,17 @@ Returns the accounts for a specified block.
 
 - `nextKey`: _string_ - hash of the next address if any addresses remain in the state, otherwise zero
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"debug_accountRange","params":["12345", 0, "0", 5],"id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```json
 {
@@ -686,7 +765,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"debug_accountRange","params":["1
 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -705,7 +786,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"debug_accountRange","params":["1
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `debug_batchSendRawTransaction`
 
@@ -725,21 +808,25 @@ Sends a list of [signed transactions](../../how-to/send-transactions.md). This i
 
 - `errorMessage`: _string_ - (optional) error message
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP
+<TabItem value="curl HTTP" label="curl HTTP" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"debug_batchSendRawTransaction","params":["0xf868808203e882520894627306090abab3a6e1400e9345bc60c78a8bef57872386f26fc10000801ba0ac74ecfa0e9b85785f042c143ead4780931234cc9a032fce99fab1f45e0d90faa02fd17e8eb433d4ca47727653232045d4f81322619c0852d3fe8ddcfcedb66a43","0x416","0xf868018203e882520894627306090abab3a6e1400e9345bc60c78a8bef57872386f26fc10000801ca0b24ea1bee8fe36984c36acbf80979a4509f23fc17141851e08d505c0df158aa0a00472a05903d4cd7a811bd4d5c59cc105d93f5943f3393f253e92e65fc36e7ce0","0xf868808203e882520894627306090abab3a6e1400e9345bc60c78a8bef5787470de4df820000801ca0f7936b4de04792e3c65095cfbfd1399d231368f5f05f877588c0c8509f6c98c9a01834004dead527c8da1396eede42e1c60e41f38a77c2fd13a6e495479c729b99"],"id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS
+</TabItem>
+
+<TabItem value="wscat WS" label="wscat WS">
 
 ```bash
 {"jsonrpc":"2.0","method":"debug_batchSendRawTransaction","params":["0xf868808203e882520894627306090abab3a6e1400e9345bc60c78a8bef57872386f26fc10000801ba0ac74ecfa0e9b85785f042c143ead4780931234cc9a032fce99fab1f45e0d90faa02fd17e8eb433d4ca47727653232045d4f81322619c0852d3fe8ddcfcedb66a43","0x416","0xf868018203e882520894627306090abab3a6e1400e9345bc60c78a8bef57872386f26fc10000801ca0b24ea1bee8fe36984c36acbf80979a4509f23fc17141851e08d505c0df158aa0a00472a05903d4cd7a811bd4d5c59cc105d93f5943f3393f253e92e65fc36e7ce0","0xf868808203e882520894627306090abab3a6e1400e9345bc60c78a8bef5787470de4df820000801ca0f7936b4de04792e3c65095cfbfd1399d231368f5f05f877588c0c8509f6c98c9a01834004dead527c8da1396eede42e1c60e41f38a77c2fd13a6e495479c729b99"],"id":1}
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -768,7 +855,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"debug_batchSendRawTransaction","
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `debug_getBadBlocks`
 
@@ -782,21 +871,25 @@ None
 
 `result`: _array_ of _objects_ - list of [block objects](objects.md#block-object)
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP
+<TabItem value="curl HTTP" label="curl HTTP" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"debug_getBadBlocks","params":[],"id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS
+</TabItem>
+
+<TabItem value="wscat WS" label="wscat WS">
 
 ```bash
 {"jsonrpc":"2.0","method":"debug_getBadBlocks","params":[],"id":1}
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -893,7 +986,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"debug_getBadBlocks","params":[],
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `debug_getRawBlock`
 
@@ -901,27 +996,37 @@ Returns the [RLP encoding](https://ethereum.org/en/developers/docs/data-structur
 
 #### Parameters
 
-`blockNumber`: _string_ - hexadecimal or decimal integer representing a block number or one of the string tags `latest`, `earliest`, `pending`, `finalized`, or `safe`, as described in [block parameter](../../how-to/use-besu-api/json-rpc.md#block-parameter)
+`blockNumber`: _string_ - hexadecimal or decimal integer representing a block number, or one of the
+string tags `latest`, `earliest`, `pending`, `finalized`, or `safe`, as described in
+[block parameter](../../how-to/use-besu-api/json-rpc.md#block-parameter)
+
+:::note
+`pending` returns the same value as `latest`.
+:::
 
 #### Returns
 
 `result`: _object_ - RLP-encoded [block object](objects.md#block-object)
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"debug_getRawBlock","params":["0x32026E"],"id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```bash
 {"jsonrpc":"2.0","method":"debug_getRawBlock","params":["0x32026E"],"id":1}
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -931,7 +1036,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"debug_getRawBlock","params":["0x
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `debug_getRawHeader`
 
@@ -939,21 +1046,29 @@ Returns the [RLP encoding](https://ethereum.org/en/developers/docs/data-structur
 
 #### Parameters
 
-`blockNumber`: _string_ - hexadecimal or decimal integer representing a block number or one of the string tags `latest`, `earliest`, `pending`, `finalized`, or `safe`, as described in [block parameter](../../how-to/use-besu-api/json-rpc.md#block-parameter)
+`blockNumber`: _string_ - hexadecimal or decimal integer representing a block number, or one of the
+string tags `latest`, `earliest`, `pending`, `finalized`, or `safe`, as described in
+[block parameter](../../how-to/use-besu-api/json-rpc.md#block-parameter)
+
+:::note
+`pending` returns the same value as `latest`.
+:::
 
 #### Returns
 
 `result`: _string_ - RLP-encoded block header or `error`
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"debug_getRawHeader","params":["0x32026E"],"id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```json
 {
@@ -964,7 +1079,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"debug_getRawHeader","params":["0
 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -974,7 +1091,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"debug_getRawHeader","params":["0
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `debug_getRawReceipts`
 
@@ -983,28 +1102,37 @@ of the transaction receipts of the specified block.
 
 #### Parameters
 
-`blockNumber`: _string_ - hexadecimal or decimal integer representing a block number or one of the string tags `latest`,
-`earliest`, `pending`, `finalized`, or `safe`, as described in [block parameter](../../how-to/use-besu-api/json-rpc.md#block-parameter)
+`blockNumber`: _string_ - hexadecimal or decimal integer representing a block number, or one of the
+string tags `latest`, `earliest`, `pending`, `finalized`, or `safe`, as described in
+[block parameter](../../how-to/use-besu-api/json-rpc.md#block-parameter)
+
+:::note
+`pending` returns the same value as `latest`.
+:::
 
 #### Returns
 
 `result`: _object_ - array of RLP-encoded [transaction receipts](objects.md#transaction-receipt-object)
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"debug_getRawReceipts","params":["0x32026E"],"id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```bash
 {"jsonrpc":"2.0","method":"debug_getRawReceipts","params":["0x32026E"],"id":1}
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -1017,7 +1145,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"debug_getRawReceipts","params":[
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `debug_getRawTransaction`
 
@@ -1032,21 +1162,25 @@ of the specified transaction.
 
 `result`: _object_ - RLP-encoded [transaction object](objects.md#transaction-object)
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"debug_getRawTransaction","params":["0x3a2fd1a5ea9ffee477f449be53a49398533d2c006a5815023920d1c397298df3"],"id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```bash
 {"jsonrpc":"2.0","method":"debug_getRawTransaction","params":["0x3a2fd1a5ea9ffee477f449be53a49398533d2c006a5815023920d1c397298df3"],"id":1}
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -1056,7 +1190,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"debug_getRawTransaction","params
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `debug_metrics`
 
@@ -1080,21 +1216,25 @@ None
 
 `result`: _object_ - metrics object
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"debug_metrics","params":[],"id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```json
 { "jsonrpc": "2.0", "method": "debug_metrics", "params": [], "id": 1 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -1195,7 +1335,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"debug_metrics","params":[],"id":
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `debug_replayBlock`
 
@@ -1203,27 +1345,37 @@ Re-imports the block matching the specified block number, by rolling the head of
 
 #### Parameters
 
-`blockNumber`: _string_ - hexadecimal or decimal integer representing a block number or one of the string tags `latest`, `earliest`, `pending`, `finalized`, or `safe`, as described in [block parameter](../../how-to/use-besu-api/json-rpc.md#block-parameter)
+`blockNumber`: _string_ - hexadecimal or decimal integer representing a block number, or one of the
+string tags `latest`, `earliest`, `pending`, `finalized`, or `safe`, as described in
+[block parameter](../../how-to/use-besu-api/json-rpc.md#block-parameter)
+
+:::note
+`pending` returns the same value as `latest`.
+:::
 
 #### Returns
 
 `result`: _string_ - `Success` or `error`
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"debug_replayBlock","params":["0x1"],"id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```json
 { "jsonrpc": "2.0", "method": "debug_replayBlock", "params": ["0x1"], "id": 1 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -1233,9 +1385,11 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"debug_replayBlock","params":["0x
 }
 ```
 
-<!--/tabs-->
+</TabItem>
 
-### `debug_resyncWorldstate`
+</Tabs>
+
+### `debug_resyncWorldState`
 
 Triggers a re-synchronization of the world state while retaining imported blocks. This is useful if there are world state database inconsistencies (for example, Bonsai database issues).
 
@@ -1247,21 +1401,25 @@ None
 
 `result`: _string_ - `Success` or `error`
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
-    curl -X POST --data '{"jsonrpc":"2.0","method":"debug_resyncWorldstate","params":[],"id":1}' http://127.0.0.1:8545
+    curl -X POST --data '{"jsonrpc":"2.0","method":"debug_resyncWorldState","params":[],"id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```json
-{ "jsonrpc": "2.0", "method": "debug_resyncWorldstate", "params": [], "id": 1 }
+{ "jsonrpc": "2.0", "method": "debug_resyncWorldState", "params": [], "id": 1 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -1271,7 +1429,9 @@ None
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `debug_setHead`
 
@@ -1279,27 +1439,37 @@ Sets the current head of the local chain to the block matching the specified blo
 
 #### Parameters
 
-`blockNumber`: _string_ - hexadecimal or decimal integer representing a block number or one of the string tags `latest`, `earliest`, `pending`, `finalized`, or `safe`, as described in [block parameter](../../how-to/use-besu-api/json-rpc.md#block-parameter)
+`blockNumber`: _string_ - hexadecimal or decimal integer representing a block number, or one of the
+string tags `latest`, `earliest`, `pending`, `finalized`, or `safe`, as described in
+[block parameter](../../how-to/use-besu-api/json-rpc.md#block-parameter)
+
+:::note
+`pending` returns the same value as `latest`.
+:::
 
 #### Returns
 
 `result`: _string_ - `Success` or `error`
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"debug_setHead","params":["0x1"],"id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```json
 { "jsonrpc": "2.0", "method": "debug_setHead", "params": ["0x1"], "id": 1 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -1309,7 +1479,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"debug_setHead","params":["0x1"],
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `debug_standardTraceBlockToFile`
 
@@ -1321,26 +1493,28 @@ Use [`debug_standardTraceBadBlockToFile`](#debug_standardtracebadblocktofile) to
 
 #### Parameters
 
-`blockHash`: _string_ - block hash
+- `blockHash`: _string_ - block hash
 
-`txHash`: _string_ - (optional) transaction hash; if omitted, a trace file is generated for each transaction in the block.
+- `txHash`: _string_ - (optional) transaction hash; if omitted, a trace file is generated for each transaction in the block.
 
-`disableMemory`: _boolean_ - (optional) specifies whether to capture EVM memory during the trace; defaults to `true`
+- `disableMemory`: _boolean_ - (optional) specifies whether to capture EVM memory during the trace; defaults to `true`
 
 #### Returns
 
 `result`: _string_ - location of the generated trace files
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"debug_standardTraceBlockToFile","params":["0x2dc0b6c43144e314a86777b4bd4f987c0790a6a0b21560671d221ed81a23f2dc", {
 "txHash": "0x4ff04c4aec9517721179c8dd435f47fbbfc2ed26cd4926845ab687420d5580a6", "disableMemory": false}], "id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```json
 {
@@ -1357,19 +1531,23 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"debug_standardTraceBlockToFile",
 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
   "jsonrpc": "2.0",
   "id": 1,
   "result": [
-    "/Users/me/mynode/goerli/data/traces/block_0x2dc0b6c4-4-0x4ff04c4a-1612820117332"
+    "/Users/me/mynode/holesky/data/traces/block_0x2dc0b6c4-4-0x4ff04c4a-1612820117332"
   ]
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `debug_standardTraceBadBlockToFile`
 
@@ -1385,15 +1563,17 @@ Use [`debug_standardTraceBlockToFile`](#debug_standardtraceblocktofile) to view 
 
 `result`: _string_ - location of the generated trace files
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"debug_standardTraceBadBlockToFile","params":["0x53741e9e94791466d117c5f9e41a2ed1de3f73d39920c621dfc2f294e7779baa"], "id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```json
 {
@@ -1406,19 +1586,23 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"debug_standardTraceBadBlockToFil
 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
   "jsonrpc": "2.0",
   "id": 1,
   "result": [
-    "/Users/me/mynode/goerli/data/traces/block_0x53741e9e-0-0x407ec43d-1600951088172"
+    "/Users/me/mynode/holesky/data/traces/block_0x53741e9e-0-0x407ec43d-1600951088172"
   ]
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `debug_storageRangeAt`
 
@@ -1442,15 +1626,17 @@ Returns the contract storage for the specified range.
 
 `result`: _object_ - [range object](objects.md#range-object).
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"debug_storageRangeAt","params":["0x2b76b3a2fc44c0e21ea183d06c846353279a7acf12abcc6fb9d5e8fb14ae2f8c",0,"0x0e0d2c8f7794e82164f11798276a188147fbd415","0x0000000000000000000000000000000000000000000000000000000000000000",1], "id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```json
 {
@@ -1467,7 +1653,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"debug_storageRangeAt","params":[
 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -1485,7 +1673,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"debug_storageRangeAt","params":[
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `debug_traceTransaction`
 
@@ -1509,15 +1699,17 @@ Reruns the transaction with the same state as when the transaction executed.
 
 `result`: _object_ - [trace object](objects.md#trace-object)
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"debug_traceTransaction","params":["0x2cc6c94c21685b7e0f8ddabf277a5ccf98db157c62619cde8baea696a74ed18e",{"disableStorage":true}],"id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```json
 {
@@ -1531,7 +1723,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"debug_traceTransaction","params"
 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -1557,7 +1751,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"debug_traceTransaction","params"
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `debug_traceBlock`
 
@@ -1579,15 +1775,17 @@ Returns full trace of all invoked opcodes of all transactions included in the bl
 
 `result`: _object_ - [trace object](objects.md#trace-object)
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"debug_traceBlock","params":["0xf90277f90208a05a41d0e66b4120775176c09fcf39e7c0520517a13d2b57b18d33d342df038bfca01dcc4de8dec75d7aab85b567b6ccd41ad312451b948a7413f0a142fd40d4934794e6a7a1d47ff21b6321162aea7c6cb457d5476bcaa00e0df2706b0a4fb8bd08c9246d472abbe850af446405d9eba1db41db18b4a169a04513310fcb9f6f616972a3b948dc5d547f280849a87ebb5af0191f98b87be598a0fe2bf2a941abf41d72637e5b91750332a30283efd40c424dc522b77e6f0ed8c4b9010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000860153886c1bbd82b44382520b8252088455c426598b657468706f6f6c2e6f7267a0b48c515a9dde8d346c3337ea520aa995a4738bb595495506125449c1149d6cf488ba4f8ecd18aab215f869f86780862d79883d2000825208945df9b87991262f6ba471f09758cde1c0fc1de734827a69801ca088ff6cf0fefd94db46111149ae4bfc179e9b94721fffd821d38d16464b3f71d0a045e0aff800961cfce805daef7016b9b675c137a6a41a548f7b60a3484c06a33ac0"],"id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```json
 {
@@ -1600,7 +1798,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"debug_traceBlock","params":["0xf
 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -1626,7 +1826,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"debug_traceBlock","params":["0xf
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `debug_traceBlockByHash`
 
@@ -1648,15 +1850,17 @@ Returns full trace of all invoked opcodes of all transactions included in the bl
 
 `result`: _array_ of _objects_ - list of [trace objects](objects.md#trace-object)
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"debug_traceBlockByHash","params":["0xaceb3b2c9b25b0589230873921eb894b28722011b8df63977145517d754875a5"], "id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```json
 {
@@ -1669,7 +1873,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"debug_traceBlockByHash","params"
 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -1698,7 +1904,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"debug_traceBlockByHash","params"
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `debug_traceBlockByNumber`
 
@@ -1706,7 +1914,13 @@ Returns full trace of all invoked opcodes of all transactions included in the bl
 
 #### Parameters
 
-- `blockNumber`: _string_ - hexadecimal or decimal integer representing a block number or one of the string tags `latest`, `earliest`, `pending`, `finalized`, or `safe`, as described in [block parameter](../../how-to/use-besu-api/json-rpc.md#block-parameter)
+- `blockNumber`: _string_ - hexadecimal or decimal integer representing a block number, or one of the
+  string tags `latest`, `earliest`, `pending`, `finalized`, or `safe`, as described in
+  [block parameter](../../how-to/use-besu-api/json-rpc.md#block-parameter)
+
+  :::note
+  `pending` returns the same value as `latest`.
+  :::
 
 - `options`: _object_ - request options object with the following fields (all optional and default to `false`):
 
@@ -1720,15 +1934,17 @@ Returns full trace of all invoked opcodes of all transactions included in the bl
 
 `result`: _array_ of _objects_ - list of [trace objects](objects.md#trace-object)
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"debug_traceBlockByNumber","params":["0x7224",{"disableStorage":true}], "id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```json
 {
@@ -1739,7 +1955,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"debug_traceBlockByNumber","param
 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -1767,7 +1985,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"debug_traceBlockByNumber","param
   ]
 }
 ```
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `debug_traceCall`
 
@@ -1776,7 +1996,14 @@ Performs an [`eth_call`](#eth_call) within the execution environment of a given 
 #### Parameters
 
 - `call`: _object_ - [transaction call object](objects.md#transaction-call-object)
-- `blockNumber` or `blockHash`: _string_ - hexadecimal or decimal integer representing a block number, block hash, or one of the string tags `latest`, `earliest`, `pending`, `finalized`, or `safe`, as described in [block parameter](../../how-to/use-besu-api/json-rpc.md#block-parameter)
+
+- `blockNumber`: _string_ - hexadecimal or decimal integer representing a block number, or one of the
+  string tags `latest`, `earliest`, `pending`, `finalized`, or `safe`, as described in
+  [block parameter](../../how-to/use-besu-api/json-rpc.md#block-parameter)
+
+  :::note
+  `pending` returns the same value as `latest`.
+  :::
 
 - `options`: _object_ - request options object with the following fields (all optional and default to `false`):
 
@@ -1790,16 +2017,18 @@ Performs an [`eth_call`](#eth_call) within the execution environment of a given 
 
 `result`: _array_ of _objects_ - list of [trace objects](objects.md#trace-object)
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"debug_traceCall","params":[{"from":"","to":"","gas":"0xfffff2","gasPrice":"0xef","value":"0x0","data":""},"latest",{"disableMemory":true,"disableStack":true,"disableStorage":true}], "id":1}' http://127.0.0.1:8545
 
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```json
 {
@@ -1811,7 +2040,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"debug_traceCall","params":[{"fro
 
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -1840,7 +2071,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"debug_traceCall","params":[{"fro
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ## `ETH` methods
 
@@ -1872,21 +2105,25 @@ None
 
 `result`: _array_ of _strings_ - list of 20-byte account addresses owned by the client
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"eth_accounts","params":[],"id":53}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```json
 { "jsonrpc": "2.0", "method": "eth_accounts", "params": [], "id": 53 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -1896,7 +2133,58 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_accounts","params":[],"id":5
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
+
+### `eth_blobBaseFee`
+
+Returns the base fee per blob gas in wei.
+
+:::info
+
+[Shard blob transactions](../../concepts/transactions/types.md#blob-transactions) enable scaling Ethereum by allowing blobs of
+data to be stored temporarily by consensus clients.
+
+:::
+
+#### Parameters
+
+None
+
+#### Returns
+
+`result`: _string_ - hexadecimal integer representing the base fee per blob gas.
+
+<Tabs>
+
+<TabItem value="curl HTTP" label="curl HTTP" default>
+
+```bash
+curl -X POST --data '{"jsonrpc":"2.0","method":"eth_blobBaseFee","params":[],"id":51}' http://127.0.0.1:8545
+```
+
+</TabItem>
+
+<TabItem value="wscat WS" label="wscat WS">
+
+```json
+{"jsonrpc":"2.0","method":"eth_blobBaseFee","params":[],"id":51}
+```
+
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 51,
+  "result": "0x3f5694c1f"
+}
+```
+</TabItem>
+</Tabs>
 
 ### `eth_blockNumber`
 
@@ -1910,21 +2198,25 @@ None
 
 `result`: _string_ - hexadecimal integer representing the index corresponding to the block number of the current chain head
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP
+<TabItem value="curl HTTP" label="curl HTTP" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"eth_blockNumber","params":[],"id":51}' http://127.0.0.1:8545
 ```
 
-# wscat WS
+</TabItem>
+
+<TabItem value="wscat WS" label="wscat WS">
 
 ```json
 { "jsonrpc": "2.0", "method": "eth_blockNumber", "params": [], "id": 51 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -1934,13 +2226,17 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_blockNumber","params":[],"id
 }
 ```
 
-# curl GraphQL
+</TabItem>
+
+<TabItem value="curl GraphQL" label="curl GraphQL">
 
 ```bash
 curl -X POST -H "Content-Type: application/json" --data '{ "query": "{block{number}}"}' http://localhost:8547/graphql
 ```
 
-# GraphQL
+</TabItem>
+
+<TabItem value="GraphQL" label="GraphQL">
 
 ```text
 {
@@ -1950,7 +2246,9 @@ curl -X POST -H "Content-Type: application/json" --data '{ "query": "{block{numb
 }
 ```
 
-# GraphQL result
+</TabItem>
+
+<TabItem value="GraphQL result" label="GraphQL result">
 
 ```json
 {
@@ -1962,7 +2260,9 @@ curl -X POST -H "Content-Type: application/json" --data '{ "query": "{block{numb
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `eth_call`
 
@@ -1974,34 +2274,42 @@ By default, the `eth_call` error response includes the [revert reason](../../../
 
 #### Parameters
 
-`call`: _object_ - [transaction call object](objects.md#transaction-call-object)
+- `call`: _object_ - [transaction call object](objects.md#transaction-call-object)
 
-`blockNumber` or `blockHash`: _string_ - hexadecimal or decimal integer representing a block number, block hash, or one of the string tags `latest`, `earliest`, `pending`, `finalized`, or `safe`, as described in [block parameter](../../how-to/use-besu-api/json-rpc.md#block-parameter)
+  :::note
 
-:::note
+  The [`strict` parameter](objects.md#transaction-call-object) determines if the sender account balance is checked:
+  * If `strict:true`, the balance is checked and `eth_call` fails if the sender account has an insufficient balance to send the transaction with the specified gas parameters.
+  * If `strict:false`, the balance is not checked and `eth_call` can succeed even if the sender account has an insufficient balance.
+  * If `strict` is not specified, the balance is checked against the gas parameters if supplied.
 
-The [`strict` parameter](objects.md#transaction-call-object) determines if the sender account balance is checked: 
-* If `strict:true`, the balance is checked and `eth_call` fails if the sender account has an insufficient balance to send the transaction with the specified gas parameters.
-* If `strict:false`, the balance is not checked and `eth_call` can succeed even if the sender account has an insufficient balance. 
-* If `strict` is not specified, the balance is checked against the gas parameters if supplied. 
+  If you do not want the sender account balance checked, send zero gas or specify `strict:false`.
 
-If you do not want the sender account balance checked, send zero gas or specify `strict:false`.
+  :::
 
-:::
+- `blockNumber` or `blockHash`: _string_ - hexadecimal or decimal integer representing a block number,
+  block hash, or one of the string tags `latest`, `earliest`, `pending`, `finalized`, or `safe`, as
+  described in [block parameter](../../how-to/use-besu-api/json-rpc.md#block-parameter)
+
+  :::note
+  `pending` returns the same value as `latest`.
+  :::
 
 #### Returns
 
 `result`: _string_ - return value of the executed contract
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP
+<TabItem value="curl HTTP" label="curl HTTP" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"eth_call","params":[{"to":"0x69498dd54bd25aa0c886cf1f8b8ae0856d55ff13","value":"0x1"}, "latest"],"id":53}' http://127.0.0.1:8545
 ```
 
-# wscat WS
+</TabItem>
+
+<TabItem value="wscat WS" label="wscat WS">
 
 ```json
 {
@@ -2015,7 +2323,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_call","params":[{"to":"0x694
 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -2025,13 +2335,17 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_call","params":[{"to":"0x694
 }
 ```
 
-# curl GraphQL
+</TabItem>
+
+<TabItem value="curl GraphQL" label="curl GraphQL">
 
 ```bash
 curl -X POST -H "Content-Type: application/json" --data '{ "query": "{block {number call (data : {from : \"0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b\", to: \"0x69498dd54bd25aa0c886cf1f8b8ae0856d55ff13\", data :\"0x12a7b914\"}){data status}}}"}' http://localhost:8547/graphql
 ```
 
-# GraphQL
+</TabItem>
+
+<TabItem value="GraphQL" label="GraphQL">
 
 ```text
 {
@@ -2045,7 +2359,9 @@ curl -X POST -H "Content-Type: application/json" --data '{ "query": "{block {num
 }
 ```
 
-# GraphQL result
+</TabItem>
+
+<TabItem value="GraphQL result" label="GraphQL result">
 
 ```json
 {
@@ -2061,21 +2377,25 @@ curl -X POST -H "Content-Type: application/json" --data '{ "query": "{block {num
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 :::info Example of a simulated contract creation
 
 The following example creates a simulated contract by not including the `to` parameter from the [transaction call object](objects.md#transaction-call-object) in the `call` parameter. Besu simulates the data to create the contract.
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP
+<TabItem value="curl HTTP" label="curl HTTP" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"eth_call","params":[{"from":"0xfe3b557e8fb62b89f4916b721be55ceb828dbd73", "data":"0x6080604052336000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555034801561005057600080fd5b5061021e806100606000396000f3fe608060405234801561001057600080fd5b50600436106100415760003560e01c8063445df0ac146100465780638da5cb5b14610064578063fdacd576146100ae575b600080fd5b61004e6100dc565b6040518082815260200191505060405180910390f35b61006c6100e2565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b6100da600480360360208110156100c457600080fd5b8101908080359060200190929190505050610107565b005b60015481565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff16146101ac576040517f08c379a00000000000000000000000000000000000000000000000000000000081526004018080602001828103825260338152602001806101b76033913960400191505060405180910390fd5b806001819055505056fe546869732066756e6374696f6e206973207265737472696374656420746f2074686520636f6e74726163742773206f776e6572a265627a7a7231582007302f208a10686769509b529e1878bda1859883778d70dedd1844fe790c9bde64736f6c63430005100032","gas":"0x439cf","gasPrice":"0x0"},"latest"],"id":53}' http://127.0.0.1:8545
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -2085,7 +2405,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_call","params":[{"from":"0xf
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 :::
 
@@ -2101,21 +2423,25 @@ None
 
 `result`: _string_ - chain ID in hexadecimal
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"eth_chainId","params":[],"id":51}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```json
 { "jsonrpc": "2.0", "method": "eth_chainId", "params": [], "id": 51 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -2125,7 +2451,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_chainId","params":[],"id":51
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `eth_coinbase`
 
@@ -2145,21 +2473,25 @@ None
 
 `result`: _string_ - coinbase address
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"eth_coinbase","params":[],"id":53}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```json
 { "jsonrpc": "2.0", "method": "eth_coinbase", "params": [], "id": 53 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -2169,7 +2501,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_coinbase","params":[],"id":5
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `eth_createAccessList`
 
@@ -2177,9 +2511,15 @@ Creates an [EIP-2930](https://eips.ethereum.org/EIPS/eip-2930) access list that 
 
 #### Parameters
 
-`transaction`: _object_ - [transaction call object](objects.md#transaction-call-object)
+- `transaction`: _object_ - [transaction call object](objects.md#transaction-call-object)
 
-`blockNumber` or `blockHash`: _string_ - hexadecimal or decimal integer representing a block number, block hash, or one of the string tags `latest`, `earliest`, `pending`, `finalized`, or `safe`, as described in [block parameter](../../how-to/use-besu-api/json-rpc.md#block-parameter).
+- `blockNumber`: _string_ - hexadecimal or decimal integer representing a block number, or one of
+  the string tags `latest`, `earliest`, `pending`, `finalized`, or `safe`, as described in
+  [block parameter](../../how-to/use-besu-api/json-rpc.md#block-parameter).
+
+  :::note
+  `pending` returns the same value as `latest`.
+  :::
 
 #### Returns
 
@@ -2190,15 +2530,17 @@ Creates an [EIP-2930](https://eips.ethereum.org/EIPS/eip-2930) access list that 
   - `storageKeys`: _array_ - storage keys to be accessed by the transaction
 - `gasUsed`: _string_ - approximate gas cost for the transaction if the access list is included
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP
+<TabItem value="curl HTTP" label="curl HTTP" default>
 
 ```bash
 curl -X POST --data '{"method":"eth_createAccessList","params":[{"from": "0xaeA8F8f781326bfE6A7683C2BD48Dd6AA4d3Ba63", "data": "0x608060806080608155"}, "pending"],"id":1,"jsonrpc":"2.0"}' http://127.0.0.1:8545
 ```
 
-# wscat WS
+</TabItem>
+
+<TabItem value="wscat WS" label="wscat WS">
 
 ```json
 {
@@ -2215,7 +2557,9 @@ curl -X POST --data '{"method":"eth_createAccessList","params":[{"from": "0xaeA8
 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -2231,7 +2575,9 @@ curl -X POST --data '{"method":"eth_createAccessList","params":[{"from": "0xaeA8
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `eth_estimateGas`
 
@@ -2253,15 +2599,17 @@ For `eth_estimateGas`, all fields are optional because setting a gas limit is ir
 
 The following example returns an estimate of 21000 wei (`0x5208`) for the transaction.
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP
+<TabItem value="curl HTTP" label="curl HTTP" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"eth_estimateGas","params":[{"from":"0xFE3B557E8Fb62b89F4916B721be55cEb828dBd73","to":"0x44Aa93095D6749A706051658B970b941c72c1D53","value":"0x1"}],"id":53}' http://127.0.0.1:8545
 ```
 
-# wscat WS
+</TabItem>
+
+<TabItem value="wscat WS" label="wscat WS">
 
 ```json
 {
@@ -2278,7 +2626,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_estimateGas","params":[{"fro
 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -2288,13 +2638,17 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_estimateGas","params":[{"fro
 }
 ```
 
-# curl GraphQL
+</TabItem>
+
+<TabItem value="curl GraphQL" label="curl GraphQL">
 
 ```bash
 curl -X POST -H "Content-Type: application/json" --data '{ "query": "{block{estimateGas (data: {from :\"0x6295ee1b4f6dd65047762f924ecd367c17eabf8f\", to :\"0x8888f1f195afa192cfee860698584c030f4c9db1\"})}}"}' http://localhost:8547/graphql
 ```
 
-# GraphQL
+</TabItem>
+
+<TabItem value="GraphQL" label="GraphQL">
 
 ```text
 {
@@ -2304,7 +2658,9 @@ curl -X POST -H "Content-Type: application/json" --data '{ "query": "{block{esti
 }
 ```
 
-# GraphQL result
+</TabItem>
+
+<TabItem value="GraphQL result" label="GraphQL result">
 
 ```json
 {
@@ -2316,13 +2672,15 @@ curl -X POST -H "Content-Type: application/json" --data '{ "query": "{block{esti
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 The following example request estimates the cost of deploying a simple storage smart contract to the network. The data field contains the hash of the compiled contract you want to deploy. (You can get the compiled contract hash from your IDE, for example, **Remix > Compile tab > details > WEB3DEPLOY**.) The result is 113355 wei.
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST \
@@ -2339,7 +2697,9 @@ http://127.0.0.1:8545 \
 }'
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -2349,17 +2709,28 @@ http://127.0.0.1:8545 \
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `eth_feeHistory`
 
-Returns base fee per gas and transaction effective priority fee per gas history for the requested block range, allowing you to track trends over time.
+Returns base fee per gas and transaction effective priority fee per gas history for the requested block
+range, allowing you to track trends over time.
+
+As of [EIP-4844](https://eips.ethereum.org/EIPS/eip-4844), this method tracks transaction blob gas fees as well.  
 
 #### Parameters
 
 - `blockCount`: _integer_ or _string_ - Number of blocks in the requested range. Between 1 and 1024 blocks can be requested in a single query. If blocks in the specified block range are not available, then only the fee history for available blocks is returned. Accepts hexadecimal or integer values.
 
-- `newestBlock`: _string_ - hexadecimal or decimal integer representing the highest number block of the requested range or one of the string tags `latest`, `earliest`, `pending`, `finalized`, or `safe`, as described in [block parameter](../../how-to/use-besu-api/json-rpc.md#block-parameter).
+- `newestBlock`: _string_ - hexadecimal or decimal integer representing the highest number block of
+  the requested range, or one of the string tags `latest`, `earliest`, `pending`, `finalized`, or
+  `safe`, as described in [block parameter](../../how-to/use-besu-api/json-rpc.md#block-parameter).
+
+  :::note
+  `pending` returns the same value as `latest`.
+  :::
 
 - `array` of `integers` - (optional) A monotonically increasing list of percentile values to sample from each block's effective priority fees per gas in ascending order, weighted by gas used.
 
@@ -2367,15 +2738,17 @@ Returns base fee per gas and transaction effective priority fee per gas history 
 
 `result`: _object_ - [Fee history results object](objects.md#fee-history-results-object).
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP
+<TabItem value="curl HTTP" label="curl HTTP" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"eth_feeHistory","params": ["0x5", "latest", [20,30]],"id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS
+</TabItem>
+
+<TabItem value="wscat WS" label="wscat WS">
 
 ```json
 {
@@ -2386,44 +2759,81 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_feeHistory","params": ["0x5"
 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
-  "jsonrpc": "2.0",
-  "result": {
-    "baseFeePerGas": [
-      "0x3da8e7618",
-      "0x3e1ba3b1b",
-      "0x3dfd72b90",
-      "0x3d64eee76",
-      "0x3d4da2da0",
-      "0x3ccbcac6b"
-    ],
-    "gasUsedRatio": [
-      0.5290747666666666, 0.49240453333333334, 0.4615576, 0.49407083333333335,
-      0.4669053
-    ],
-    "oldestBlock": "0xfab8ac",
-    "reward": [
-      ["0x59682f00", "0x59682f00"],
-      ["0x59682f00", "0x59682f00"],
-      ["0x3b9aca00", "0x59682f00"],
-      ["0x510b0870", "0x59682f00"],
-      ["0x3b9aca00", "0x59682f00"]
-    ]
-  },
-  "id": 1
+    "jsonrpc": "2.0",
+    "id": 1,
+    "result": {
+        "oldestBlock": "0x10b52f",
+        "baseFeePerGas": [
+            "0x3fa63a3f",
+            "0x37f999ee",
+            "0x3e36f20a",
+            "0x4099f79a",
+            "0x430d532d",
+            "0x46fcd4a4"
+        ],
+        "baseFeePerBlobGas": [
+            "0x7b7609c19",
+            "0x6dbe41789",
+            "0x7223341d4",
+            "0x6574a002c",
+            "0x7223341d4",
+            "0x6574a002c"
+        ],
+        "gasUsedRatio": [
+            0.017712333333333333,
+            0.9458865666666667,
+            0.6534561,
+            0.6517375666666667,
+            0.7347769666666667
+        ],
+        "blobGasUsedRatio": [
+            0.0,
+            0.6666666666666666,
+            0.0,
+            1.0,
+            0.0
+        ],
+        "reward": [
+            [
+                "0x3b9aca00",
+                "0x59682f00"
+            ],
+            [
+                "0x3a13012",
+                "0x3a13012"
+            ],
+            [
+                "0xf4240",
+                "0xf4240"
+            ],
+            [
+                "0xf4240",
+                "0xf4240"
+            ],
+            [
+                "0xf4240",
+                "0xf4240"
+            ]
+        ]
+    }
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `eth_gasPrice`
 
-Returns a percentile gas unit price for the most recent blocks, in Wei. By default, the last 100 blocks are examined and the 50th percentile gas unit price (that is, the median value) is returned.
+Returns a percentile gas unit price for the most recent blocks, in wei. By default, the last 100 blocks are examined and the 50th percentile gas unit price (that is, the median value) is returned.
 
-If there are no blocks, the value for [`--min-gas-price`](../cli/options.md#min-gas-price) is returned. The value returned is restricted to values between [`--min-gas-price`](../cli/options.md#min-gas-price) and [`--api-gas-price-max`](../cli/options.md#api-gas-price-max). By default, 1000 Wei and 500GWei.
+If there are no blocks, the value for [`--min-gas-price`](../cli/options.md#min-gas-price) is returned. The value returned is restricted to values between [`--min-gas-price`](../cli/options.md#min-gas-price) and [`--api-gas-price-max`](../cli/options.md#api-gas-price-max). By default, 1000 wei and 500 gwei.
 
 Use the [`--api-gas-price-blocks`](../cli/options.md#api-gas-price-blocks), [`--api-gas-price-percentile`](../cli/options.md#api-gas-price-percentile) , and [`--api-gas-price-max`](../cli/options.md#api-gas-price-max) command line options to configure the `eth_gasPrice` default values.
 
@@ -2433,23 +2843,27 @@ None
 
 #### Returns
 
-`result`: _string_ - percentile gas unit price for the most recent blocks, in Wei, as a hexadecimal value
+`result`: _string_ - percentile gas unit price for the most recent blocks, in wei, as a hexadecimal value
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP
+<TabItem value="curl HTTP" label="curl HTTP" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"eth_gasPrice","params":[],"id":53}' http://127.0.0.1:8545
 ```
 
-# wscat WS
+</TabItem>
+
+<TabItem value="wscat WS" label="wscat WS">
 
 ```json
 { "jsonrpc": "2.0", "method": "eth_gasPrice", "params": [], "id": 53 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -2459,13 +2873,17 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_gasPrice","params":[],"id":5
 }
 ```
 
-# curl GraphQL
+</TabItem>
+
+<TabItem value="curl GraphQL" label="curl GraphQL">
 
 ```bash
 curl -X POST -H "Content-Type: application/json" --data '{ "query": "{gasPrice}"}' http://localhost:8547/graphql
 ```
 
-# GraphQL
+</TabItem>
+
+<TabItem value="GraphQL" label="GraphQL">
 
 ```text
 {
@@ -2473,7 +2891,9 @@ curl -X POST -H "Content-Type: application/json" --data '{ "query": "{gasPrice}"
 }
 ```
 
-# GraphQL result
+</TabItem>
+
+<TabItem value="GraphQL result" label="GraphQL result">
 
 ```json
 {
@@ -2483,7 +2903,9 @@ curl -X POST -H "Content-Type: application/json" --data '{ "query": "{gasPrice}"
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `eth_getBalance`
 
@@ -2493,21 +2915,29 @@ Returns the account balance of the specified address.
 
 - `address`: _string_ - 20-byte account address from which to retrieve the balance
 
-- `blockNumber` or `blockHash`: _string_ - hexadecimal or decimal integer representing a block number, block hash, or one of the string tags `latest`, `earliest`, `pending`, `finalized`, or `safe`, as described in [block parameter](../../how-to/use-besu-api/json-rpc.md#block-parameter)
+- `blockNumber` or `blockHash`: _string_ - hexadecimal or decimal integer representing a block
+  number, block hash, or one of the string tags `latest`, `earliest`, `pending`, `finalized`, or
+  `safe`, as described in [block parameter](../../how-to/use-besu-api/json-rpc.md#block-parameter)
+
+  :::note
+  `pending` returns the same value as `latest`.
+  :::
 
 #### Returns
 
-`result`: _string_ - current balance, in Wei, as a hexadecimal value
+`result`: _string_ - current balance, in wei, as a hexadecimal value
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP
+<TabItem value="curl HTTP" label="curl HTTP" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getBalance","params":["0xfe3b557e8fb62b89f4916b721be55ceb828dbd73", "latest"],"id":53}' http://127.0.0.1:8545
 ```
 
-# wscat WS
+</TabItem>
+
+<TabItem value="wscat WS" label="wscat WS">
 
 ```json
 {
@@ -2518,7 +2948,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getBalance","params":["0xfe3
 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -2528,13 +2960,17 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getBalance","params":["0xfe3
 }
 ```
 
-# curl GraphQL
+</TabItem>
+
+<TabItem value="curl GraphQL" label="curl GraphQL">
 
 ```bash
 curl -X POST -H "Content-Type: application/json" --data '{ "query": "{ account ( address: \"0xfe3b557e8fb62b89f4916b721be55ceb828dbd73\") { balance } }"}' http://localhost:8547/graphql
 ```
 
-# GraphQL
+</TabItem>
+
+<TabItem value="GraphQL" label="GraphQL">
 
 ```text
 {
@@ -2544,7 +2980,9 @@ curl -X POST -H "Content-Type: application/json" --data '{ "query": "{ account (
 }
 ```
 
-# GraphQL result
+</TabItem>
+
+<TabItem value="GraphQL result" label="GraphQL result">
 
 ```json
 {
@@ -2556,7 +2994,9 @@ curl -X POST -H "Content-Type: application/json" --data '{ "query": "{ account (
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `eth_getBlockByHash`
 
@@ -2572,15 +3012,17 @@ Returns information about the block matching the specified block hash.
 
 `result`: _object_ - [block object](objects.md#block-object), or `null` when there is no block
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP
+<TabItem value="curl HTTP" label="curl HTTP" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getBlockByHash","params":["0xd5f1812548be429cbdc6376b29611fc49e06f1359758c4ceaaa3b393e2239f9c", false],"id":53}' http://127.0.0.1:8545
 ```
 
-# wscat WS
+</TabItem>
+
+<TabItem value="wscat WS" label="wscat WS">
 
 ```json
 {
@@ -2594,7 +3036,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getBlockByHash","params":["0
 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -2629,13 +3073,17 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getBlockByHash","params":["0
 }
 ```
 
-# curl GraphQL
+</TabItem>
+
+<TabItem value="curl GraphQL" label="curl GraphQL">
 
 ```bash
 curl -X POST -H "Content-Type: application/json" --data '{ "query": "{block (hash : \"0xb0efed1fc9326fee967cb2d845d4ebe57c5350a0670c8e86f8052dea6f219f92\") {number transactions{hash} timestamp difficulty totalDifficulty gasUsed gasLimit hash nonce ommerCount logsBloom mixHash ommerHash extraData stateRoot receiptsRoot transactionCount transactionsRoot}}"}' http://localhost:8547/graphql
 ```
 
-# GraphQL
+</TabItem>
+
+<TabItem value="GraphQL" label="GraphQL">
 
 ```text
 {
@@ -2664,7 +3112,9 @@ curl -X POST -H "Content-Type: application/json" --data '{ "query": "{block (has
 }
 ```
 
-# GraphQL result
+</TabItem>
+
+<TabItem value="GraphQL result" label="GraphQL result">
 
 ```json
 {
@@ -2694,7 +3144,9 @@ curl -X POST -H "Content-Type: application/json" --data '{ "query": "{block (has
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `eth_getBlockByNumber`
 
@@ -2702,7 +3154,13 @@ Returns information about the block matching the specified block number.
 
 #### Parameters
 
-- `blockNumber`: _string_ - hexadecimal or decimal integer representing a block number or one of the string tags `latest`, `earliest`, `pending`, `finalized`, or `safe`, as described in [block parameter](../../how-to/use-besu-api/json-rpc.md#block-parameter)
+- `blockNumber`: _string_ - hexadecimal or decimal integer representing a block number, or one of
+  the string tags `latest`, `earliest`, `pending`, `finalized`, or `safe`, as described in
+  [block parameter](../../how-to/use-besu-api/json-rpc.md#block-parameter).
+
+  :::note
+  `pending` returns the same value as `latest`.
+  :::
 
 - `verbose`: _boolean_ - if `true`, returns the full [transaction objects](objects.md#transaction-object); if `false`, returns only the hashes of the transactions.
 
@@ -2710,15 +3168,17 @@ Returns information about the block matching the specified block number.
 
 `result`: _object_ - [block object](objects.md#block-object), or `null` when there is no block.
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP
+<TabItem value="curl HTTP" label="curl HTTP" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getBlockByNumber","params":["0x68B3", true],"id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS
+</TabItem>
+
+<TabItem value="wscat WS" label="wscat WS">
 
 ```json
 {
@@ -2729,7 +3189,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getBlockByNumber","params":[
 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -2761,13 +3223,17 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getBlockByNumber","params":[
 }
 ```
 
-# curl GraphQL
+</TabItem>
+
+<TabItem value="curl GraphQL" label="curl GraphQL">
 
 ```bash
 curl -X POST -H "Content-Type: application/json" --data '{ "query": "{block (number : 100) {transactions{hash} timestamp difficulty totalDifficulty gasUsed gasLimit hash nonce ommerCount logsBloom mixHash ommerHash extraData stateRoot receiptsRoot transactionCount transactionsRoot ommers{hash} ommerAt(index : 1){hash} miner{address} account(address: \"0xfe3b557e8fb62b89f4916b721be55ceb828dbd73\"){balance} parent{hash} }}"}' http://localhost:8547/graphql
 ```
 
-# GraphQL
+</TabItem>
+
+<TabItem value="GraphQL" label="GraphQL">
 
 ```text
 {
@@ -2810,7 +3276,9 @@ curl -X POST -H "Content-Type: application/json" --data '{ "query": "{block (num
 }
 ```
 
-# GraphQL result
+</TabItem>
+
+<TabItem value="GraphQL result" label="GraphQL result">
 
 ```json
 {
@@ -2850,7 +3318,9 @@ curl -X POST -H "Content-Type: application/json" --data '{ "query": "{block (num
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `eth_getBlockReceipts`
 
@@ -2859,21 +3329,29 @@ gas used and any event logs that might have been produced by a smart contract du
 
 #### Parameters
 
-- `blockNumber` or `blockHash`: _string_ - hexadecimal or decimal integer representing a block number, block hash, or one of the string tags `latest`, `earliest`, `pending`, `finalized`, or `safe`, as described in [block parameter](../../how-to/use-besu-api/json-rpc.md#block-parameter)
+`blockNumber`: _string_ - hexadecimal or decimal integer representing a block number, or one of
+the string tags `latest`, `earliest`, `pending`, `finalized`, or `safe`, as described in
+[block parameter](../../how-to/use-besu-api/json-rpc.md#block-parameter).
+
+:::note
+`pending` returns the same value as `latest`.
+:::
 
 #### Returns
 
 `result`: _object_ - [block object](objects.md#block-object), or `null` when there is no block.
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP
+<TabItem value="curl HTTP" label="curl HTTP" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getBlockReceipts","params":["latest"],"id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS
+</TabItem>
+
+<TabItem value="wscat WS" label="wscat WS">
 
 ```json
 {
@@ -2881,7 +3359,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getBlockReceipts","params":[
 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -2941,13 +3421,17 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getBlockReceipts","params":[
 }
 ```
 
-# curl GraphQL
+</TabItem>
+
+<TabItem value="curl GraphQL" label="curl GraphQL">
 
 ```bash
 curl -X POST -H "Content-Type: application/json" --data '{ "query": "{block  (hash: \"0x4d746a3381673a5180744a56e78cded4696b77317866c2253566e0fa16967e1d\") {transactions{block{hash logsBloom} hash createdContract{address} cumulativeGasUsed gas gasUsed logs{topics} from{address} to{address} index}}}"}' http://localhost:8547/graphql
 ```
 
-# GraphQL
+</TabItem>
+
+<TabItem value="GraphQL" label="GraphQL">
 
 ```text
 {
@@ -2979,7 +3463,9 @@ curl -X POST -H "Content-Type: application/json" --data '{ "query": "{block  (ha
 }
 ```
 
-# GraphQL result
+</TabItem>
+
+<TabItem value="GraphQL result" label="GraphQL result">
 
 ```json
 {
@@ -3029,7 +3515,9 @@ curl -X POST -H "Content-Type: application/json" --data '{ "query": "{block  (ha
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `eth_getBlockTransactionCountByHash`
 
@@ -3043,15 +3531,17 @@ Returns the number of transactions in the block matching the specified block has
 
 `result`: _number_ - integer representing the number of transactions in the specified block, or `null` if no matching block hash is found
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP
+<TabItem value="curl HTTP" label="curl HTTP" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getBlockTransactionCountByHash","params":["0xb903239f8543d04b5dc1ba6579132b143087c68db1b2168786408fcbce568238"],"id":53}' http://127.0.0.1:8545
 ```
 
-# wscat WS
+</TabItem>
+
+<TabItem value="wscat WS" label="wscat WS">
 
 ```json
 {
@@ -3064,7 +3554,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getBlockTransactionCountByHa
 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -3074,13 +3566,17 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getBlockTransactionCountByHa
 }
 ```
 
-# curl GraphQL
+</TabItem>
+
+<TabItem value="curl GraphQL" label="curl GraphQL">
 
 ```bash
 curl -X POST -H "Content-Type: application/json" --data '{ "query": "{block(hash:\"0xe455c14f757b0b9b67774baad1be1c180a4c1657df52259dbb685bf375408097\"){transactionCount}}"}' http://localhost:8547/graphql
 ```
 
-# GraphQL
+</TabItem>
+
+<TabItem value="GraphQL" label="GraphQL">
 
 ```text
 {
@@ -3090,7 +3586,9 @@ curl -X POST -H "Content-Type: application/json" --data '{ "query": "{block(hash
 }
 ```
 
-# GraphQL result
+</TabItem>
+
+<TabItem value="GraphQL result" label="GraphQL result">
 
 ```json
 {
@@ -3102,7 +3600,9 @@ curl -X POST -H "Content-Type: application/json" --data '{ "query": "{block(hash
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `eth_getBlockTransactionCountByNumber`
 
@@ -3110,21 +3610,29 @@ Returns the number of transactions in a block matching the specified block numbe
 
 #### Parameters
 
-`blockNumber`: _string_ - hexadecimal or decimal integer representing a block number or one of the string tags `latest`, `earliest`, `pending`, `finalized`, or `safe`, as described in [block parameter](../../how-to/use-besu-api/json-rpc.md#block-parameter)
+`blockNumber`: _string_ - hexadecimal or decimal integer representing a block number, or one of
+the string tags `latest`, `earliest`, `pending`, `finalized`, or `safe`, as described in
+[block parameter](../../how-to/use-besu-api/json-rpc.md#block-parameter).
+
+:::note
+`pending` returns the same value as `latest`.
+:::
 
 #### Returns
 
 `result`: _string_ - integer representing the number of transactions in the specified block, or `null` if no matching block number is found
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP
+<TabItem value="curl HTTP" label="curl HTTP" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getBlockTransactionCountByNumber","params":["0xe8"],"id":51}' http://127.0.0.1:8545
 ```
 
-# wscat WS
+</TabItem>
+
+<TabItem value="wscat WS" label="wscat WS">
 
 ```json
 {
@@ -3135,7 +3643,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getBlockTransactionCountByNu
 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -3145,13 +3655,17 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getBlockTransactionCountByNu
 }
 ```
 
-# curl GraphQL
+</TabItem>
+
+<TabItem value="curl GraphQL" label="curl GraphQL">
 
 ```bash
 curl -X POST -H "Content-Type: application/json" --data '{ "query": "{block(number:232){transactionCount}}"}' http://localhost:8547/graphql
 ```
 
-# GraphQL
+</TabItem>
+
+<TabItem value="GraphQL" label="GraphQL">
 
 ```text
 {
@@ -3161,7 +3675,9 @@ curl -X POST -H "Content-Type: application/json" --data '{ "query": "{block(numb
 }
 ```
 
-# GraphQL result
+</TabItem>
+
+<TabItem value="GraphQL result" label="GraphQL result">
 
 ```json
 {
@@ -3173,7 +3689,9 @@ curl -X POST -H "Content-Type: application/json" --data '{ "query": "{block(numb
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `eth_getCode`
 
@@ -3181,23 +3699,31 @@ Returns the code of the smart contract at the specified address. Besu stores com
 
 #### Parameters
 
-`address`: _string_ - 20-byte contract address
+- `address`: _string_ - 20-byte contract address
 
-`blockNumber` or `blockHash`: _string_ - hexadecimal or decimal integer representing a block number, block hash, or one of the string tags `latest`, `earliest`, `pending`, `finalized`, or `safe`, as described in [block parameter](../../how-to/use-besu-api/json-rpc.md#block-parameter)
+- `blockNumber` or `blockHash`: _string_ - hexadecimal or decimal integer representing a block number,
+  block hash, or one of the string tags `latest`, `earliest`, `pending`, `finalized`, or `safe`, as
+  described in [block parameter](../../how-to/use-besu-api/json-rpc.md#block-parameter)
+
+  :::note
+  `pending` returns the same value as `latest`.
+  :::
 
 #### Returns
 
 `result`: _data_ - code stored at the specified address
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP
+<TabItem value="curl HTTP" label="curl HTTP" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getCode","params":["0xa50a51c09a5c451c52bb714527e1974b686d8e77", "latest"],"id":53}' http://127.0.0.1:8545
 ```
 
-# wscat WS
+</TabItem>
+
+<TabItem value="wscat WS" label="wscat WS">
 
 ```json
 {
@@ -3208,7 +3734,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getCode","params":["0xa50a51
 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -3218,13 +3746,17 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getCode","params":["0xa50a51
 }
 ```
 
-# curl GraphQL
+</TabItem>
+
+<TabItem value="curl GraphQL" label="curl GraphQL">
 
 ```bash
 curl -X POST -H "Content-Type: application/json" --data '{"query": "{account(address: \"0xa50a51c09a5c451c52bb714527e1974b686d8e77\"){ code }}"}' http://localhost:8547/graphql
 ```
 
-# GraphQL
+</TabItem>
+
+<TabItem value="GraphQL" label="GraphQL">
 
 ```text
 {
@@ -3234,7 +3766,9 @@ curl -X POST -H "Content-Type: application/json" --data '{"query": "{account(add
 }
 ```
 
-# GraphQL result
+</TabItem>
+
+<TabItem value="GraphQL result" label="GraphQL result">
 
 ```json
 {
@@ -3246,7 +3780,9 @@ curl -X POST -H "Content-Type: application/json" --data '{"query": "{account(add
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `eth_getFilterChanges`
 
@@ -3266,15 +3802,17 @@ Polls the specified filter and returns an array of changes that have occurred si
 
 - For filters created with `eth_newFilter`, returns [log objects](objects.md#log-object).
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getFilterChanges","params":["0xf8bf5598d9e04fbe84523d42640b9b0e"],"id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```json
 {
@@ -3285,7 +3823,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getFilterChanges","params":[
 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json title="Example result from a filter created with eth_newBlockFilter"
 {
@@ -3345,7 +3885,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getFilterChanges","params":[
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `eth_getFilterLogs`
 
@@ -3367,15 +3909,17 @@ Leave the [`--auto-log-bloom-caching-enabled`](../cli/options.md#auto-log-bloom-
 
 `result`: _array_ of _objects_ - list of [log objects](objects.md#log-object)
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getFilterLogs","params":["0x5ace5de3985749b6a1b2b0d3f3e1fb69"],"id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```json
 {
@@ -3386,7 +3930,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getFilterLogs","params":["0x
 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -3423,7 +3969,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getFilterLogs","params":["0x
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `eth_getLogs`
 
@@ -3445,15 +3993,17 @@ Using `eth_getLogs` to get logs from a large range of blocks, especially an enti
 
 `result`: _array_ of _objects_ - list of [log objects](objects.md#log-object)
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP
+<TabItem value="curl HTTP" label="curl HTTP" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getLogs","params":[{"fromBlock":"earliest", "toBlock":"latest", "address": "0x2e1f232a9439c3d459fceca0beef13acc8259dd8", "topics":[]}], "id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS
+</TabItem>
+
+<TabItem value="wscat WS" label="wscat WS">
 
 ```json
 {
@@ -3471,7 +4021,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getLogs","params":[{"fromBlo
 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -3508,13 +4060,17 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getLogs","params":[{"fromBlo
 }
 ```
 
-# curl GraphQL
+</TabItem>
+
+<TabItem value="curl GraphQL" label="curl GraphQL">
 
 ```bash
 curl -X POST -H "Content-Type: application/json" --data '{"query": "{logs(filter:{fromBlock: 1486000, toBlock: 1486010, addresses: [\"0x7ef66b77759e12caf3ddb3e4aff524e577c59d8d\"], topics: [[\"0x8a22ee899102a366ac8ad0495127319cb1ff2403cfae855f83a89cda1266674d\"]]}) {index topics data account{address} transaction{hash} }}"}' http://localhost:8547/graphql
 ```
 
-# GraphQL
+</TabItem>
+
+<TabItem value="GraphQL" label="GraphQL">
 
 ```text
 {
@@ -3532,7 +4088,9 @@ curl -X POST -H "Content-Type: application/json" --data '{"query": "{logs(filter
 }
 ```
 
-# GraphQL result
+</TabItem>
+
+<TabItem value="GraphQL result" label="GraphQL result">
 
 ```json
 {
@@ -3573,7 +4131,9 @@ curl -X POST -H "Content-Type: application/json" --data '{"query": "{logs(filter
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `eth_getMinerDataByBlockHash`
 
@@ -3587,15 +4147,17 @@ Returns miner data for the specified block.
 
 `result`: _object_ - [miner data object](objects.md#miner-data-object)
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP
+<TabItem value="curl HTTP" label="curl HTTP" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method": "eth_getMinerDataByBlockHash","params": ["0xbf137c3a7a1ebdfac21252765e5d7f40d115c2757e4a4abee929be88c624fdb7"],"id": 1}' http://127.0.0.1:8545
 ```
 
-# wscat WS
+</TabItem>
+
+<TabItem value="wscat WS" label="wscat WS">
 
 ```json
 {
@@ -3608,7 +4170,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method": "eth_getMinerDataByBlockHash","p
 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -3633,7 +4197,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method": "eth_getMinerDataByBlockHash","p
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `eth_getMinerDataByBlockNumber`
 
@@ -3641,21 +4207,29 @@ Returns miner data for the specified block.
 
 #### Parameters
 
-`blockNumber`: _string_ - hexadecimal or decimal integer representing a block number or one of the string tags `latest`, `earliest`, `pending`, `finalized`, or `safe`, as described in [block parameter](../../how-to/use-besu-api/json-rpc.md#block-parameter)
+`blockNumber`: _string_ - hexadecimal or decimal integer representing a block number, or one of
+the string tags `latest`, `earliest`, `pending`, `finalized`, or `safe`, as described in
+[block parameter](../../how-to/use-besu-api/json-rpc.md#block-parameter).
+
+:::note
+`pending` returns the same value as `latest`.
+:::
 
 #### Returns
 
 `result`: _object_ - [miner data object](objects.md#miner-data-object)
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP
+<TabItem value="curl HTTP" label="curl HTTP" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method": "eth_getMinerDataByBlockNumber","params": ["0x7689D2"],"id": 1}' http://127.0.0.1:8545
 ```
 
-# wscat WS
+</TabItem>
+
+<TabItem value="wscat WS" label="wscat WS">
 
 ```json
 {
@@ -3666,7 +4240,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method": "eth_getMinerDataByBlockNumber",
 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -3691,7 +4267,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method": "eth_getMinerDataByBlockNumber",
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `eth_getProof`
 
@@ -3701,11 +4279,17 @@ The API allows IoT devices or mobile apps which are unable to run light clients 
 
 #### Parameters
 
-`address`: _string_ - 20-byte address of the account or contract
+- `address`: _string_ - 20-byte address of the account or contract
 
-`keys`: _array_ of _strings_ - list of 32-byte storage keys to generate proofs for
+- `keys`: _array_ of _strings_ - list of 32-byte storage keys to generate proofs for
 
-`blockNumber` or `blockHash`: _string_ - hexadecimal or decimal integer representing a block number, block hash, or one of the string tags `latest`, `earliest`, `pending`, `finalized`, or `safe`, as described in [block parameter](../../how-to/use-besu-api/json-rpc.md#block-parameter)
+- `blockNumber` or `blockHash`: _string_ - hexadecimal or decimal integer representing a block
+  number, block hash, or one of the string tags `latest`, `earliest`, `pending`, `finalized`, or
+  `safe`, as described in [block parameter](../../how-to/use-besu-api/json-rpc.md#block-parameter)
+
+  :::note
+  `pending` returns the same value as `latest`.
+  :::
 
 #### Returns
 
@@ -3729,16 +4313,18 @@ The API allows IoT devices or mobile apps which are unable to run light clients 
 
   - `proof`: _array_ of _strings_ - list of RLP-encoded Merkle tree nodes, starting with the `storageHash`
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP
+<TabItem value="curl HTTP" label="curl HTTP" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method": "eth_getProof","params": [
 "0a8156e7ee392d885d10eaa86afd0e323afdcd95", ["0x0000000000000000000000000000000000000000000000000000000000000347"], "latest"],"id": 1}' http://127.0.0.1:8545
 ```
 
-# wscat WS
+</TabItem>
+
+<TabItem value="wscat WS" label="wscat WS">
 
 ```json
 {
@@ -3753,7 +4339,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method": "eth_getProof","params": [
 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -3786,7 +4374,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method": "eth_getProof","params": [
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `eth_getStorageAt`
 
@@ -3794,11 +4384,17 @@ Returns the value of a storage position at a specified address.
 
 #### Parameters
 
-`address`: _string_ - 20-byte storage address
+- `address`: _string_ - 20-byte storage address
 
-`index`: _string_ - integer index of the storage position
+- `index`: _string_ - integer index of the storage position
 
-`blockNumber` or `blockHash`: _string_ - hexadecimal or decimal integer representing a block number, block hash, or one of the string tags `latest`, `earliest`, `pending`, `finalized`, or `safe`, as described in [block parameter](../../how-to/use-besu-api/json-rpc.md#block-parameter)
+- `blockNumber` or `blockHash`: _string_ - hexadecimal or decimal integer representing a block
+  number, block hash, or one of the string tags `latest`, `earliest`, `pending`, `finalized`, or
+  `safe`, as described in [block parameter](../../how-to/use-besu-api/json-rpc.md#block-parameter)
+
+  :::note
+  `pending` returns the same value as `latest`.
+  :::
 
 #### Returns
 
@@ -3806,15 +4402,17 @@ Returns the value of a storage position at a specified address.
 
 Calculating the correct position depends on the storage you want to retrieve.
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP
+<TabItem value="curl HTTP" label="curl HTTP" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method": "eth_getStorageAt","params": ["0x‭3B3F3E‬","0x0","latest"],"id": 53}' http://127.0.0.1:8545
 ```
 
-# wscat WS
+</TabItem>
+
+<TabItem value="wscat WS" label="wscat WS">
 
 ```json
 {
@@ -3825,7 +4423,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method": "eth_getStorageAt","params": ["0
 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -3835,13 +4435,17 @@ curl -X POST --data '{"jsonrpc":"2.0","method": "eth_getStorageAt","params": ["0
 }
 ```
 
-# curl GraphQL
+</TabItem>
+
+<TabItem value="curl GraphQL" label="curl GraphQL">
 
 ```bash
 curl -X POST -H "Content-Type: application/json" --data '{ "query": "{account(address: \"0xfe3b557e8fb62b89f4916b721be55ceb828dbd73\") {storage(slot: \"0x04\")}}"}' http://localhost:8547/graphql
 ```
 
-# GraphQL
+</TabItem>
+
+<TabItem value="GraphQL" label="GraphQL">
 
 ```text
 {
@@ -3851,7 +4455,9 @@ curl -X POST -H "Content-Type: application/json" --data '{ "query": "{account(ad
 }
 ```
 
-# GraphQL result
+</TabItem>
+
+<TabItem value="GraphQL result" label="GraphQL result">
 
 ```json
 {
@@ -3863,7 +4469,9 @@ curl -X POST -H "Content-Type: application/json" --data '{ "query": "{account(ad
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `eth_getTransactionByBlockHashAndIndex`
 
@@ -3871,23 +4479,25 @@ Returns transaction information for the specified block hash and transaction ind
 
 #### Parameters
 
-`block`: _string_ - 32-byte hash of a block
+- `block`: _string_ - 32-byte hash of a block
 
-`index`: _string_ - integer representing the transaction index position
+- `index`: _string_ - integer representing the transaction index position
 
 #### Returns
 
 `result`: _object_ - [transaction object](objects.md#transaction-object), or `null` when there is no transaction
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP
+<TabItem value="curl HTTP" label="curl HTTP" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getTransactionByBlockHashAndIndex","params":["0xbf137c3a7a1ebdfac21252765e5d7f40d115c2757e4a4abee929be88c624fdb7", "0x2"], "id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS
+</TabItem>
+
+<TabItem value="wscat WS" label="wscat WS">
 
 ```json
 {
@@ -3901,7 +4511,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getTransactionByBlockHashAnd
 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -3927,13 +4539,17 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getTransactionByBlockHashAnd
 }
 ```
 
-# curl GraphQL
+</TabItem>
+
+<TabItem value="curl GraphQL" label="curl GraphQL">
 
 ```bash
 curl -X POST -H "Content-Type: application/json" --data '{"query": "{ block(hash: \"0x9270651f9c6fa36232c379d0ecf69b519383aa275815a65f1e03114346668f69\") { transactionAt(index: 0) {block{hash}  hash } } }"}' http://localhost:8547/graphql
 ```
 
-# GraphQL
+</TabItem>
+
+<TabItem value="GraphQL" label="GraphQL">
 
 ```text
 {
@@ -3948,7 +4564,9 @@ curl -X POST -H "Content-Type: application/json" --data '{"query": "{ block(hash
 }
 ```
 
-# GraphQL result
+</TabItem>
+
+<TabItem value="GraphQL result" label="GraphQL result">
 
 ```json
 {
@@ -3965,7 +4583,9 @@ curl -X POST -H "Content-Type: application/json" --data '{"query": "{ block(hash
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `eth_getTransactionByBlockNumberAndIndex`
 
@@ -3973,25 +4593,33 @@ Returns transaction information for the specified block number and transaction i
 
 #### Parameters
 
-`blockNumber`: _string_ - hexadecimal or decimal integer representing a block number or one of the string tags `latest`, `earliest`, `pending`, `finalized`, or `safe`, as described in [block parameter](../../how-to/use-besu-api/json-rpc.md#block-parameter)
+- `blockNumber`: _string_ - hexadecimal or decimal integer representing a block number, or one of
+  the string tags `latest`, `earliest`, `pending`, `finalized`, or `safe`, as described in
+  [block parameter](../../how-to/use-besu-api/json-rpc.md#block-parameter)
 
-`index`: _string_ - transaction index position
+  :::note
+  `pending` returns the same value as `latest`.
+  :::
+
+- `index`: _string_ - transaction index position
 
 #### Returns
 
 `result`: _object_ - [transaction object](objects.md#transaction-object), or `null` when there is no transaction
 
-<!--tabs-->
-
 This request returns the third transaction in the 82990 block on the Ropsten testnet. You can also view this [block](https://ropsten.etherscan.io/txs?block=82990) and [transaction] on Etherscan.
 
-# curl HTTP
+<Tabs>
+
+<TabItem value="curl HTTP" label="curl HTTP" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getTransactionByBlockNumberAndIndex","params":["82990", "0x2"], "id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS
+</TabItem>
+
+<TabItem value="wscat WS" label="wscat WS">
 
 ```json
 {
@@ -4002,7 +4630,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getTransactionByBlockNumberA
 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -4028,13 +4658,17 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getTransactionByBlockNumberA
 }
 ```
 
-# curl GraphQL
+</TabItem>
+
+<TabItem value="curl GraphQL" label="curl GraphQL">
 
 ```bash
 curl -X POST -H "Content-Type: application/json" --data '{"query": "{block(number:20303) {transactionAt(index: 0) {block{hash} hash}}}"}' http://localhost:8547/graphql
 ```
 
-# GraphQL
+</TabItem>
+
+<TabItem value="GraphQL" label="GraphQL">
 
 ```text
 {
@@ -4049,7 +4683,9 @@ curl -X POST -H "Content-Type: application/json" --data '{"query": "{block(numbe
 }
 ```
 
-# GraphQL result
+</TabItem>
+
+<TabItem value="GraphQL result" label="GraphQL result">
 
 ```json
 {
@@ -4066,7 +4702,9 @@ curl -X POST -H "Content-Type: application/json" --data '{"query": "{block(numbe
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `eth_getTransactionByHash`
 
@@ -4080,15 +4718,17 @@ Returns transaction information for the specified transaction hash.
 
 `result`: _object_ - [transaction object](objects.md#transaction-object), or `null` when there is no transaction
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP
+<TabItem value="curl HTTP" label="curl HTTP" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getTransactionByHash","params":["0xa52be92809541220ee0aaaede6047d9a6c5d0cd96a517c854d944ee70a0ebb44"],"id":53}' http://127.0.0.1:8545
 ```
 
-# wscat WS
+</TabItem>
+
+<TabItem value="wscat WS" label="wscat WS">
 
 ```json
 {
@@ -4101,7 +4741,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getTransactionByHash","param
 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -4127,13 +4769,17 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getTransactionByHash","param
 }
 ```
 
-# curl GraphQL
+</TabItem>
+
+<TabItem value="curl GraphQL" label="curl GraphQL">
 
 ```bash
 curl -X POST -H "Content-Type: application/json" --data '{"query": "{transaction(hash : \"0x03d80b9ca0a71435399a268609d6d7896f7155d2147cc22b780672bcb59b170d\") { block{hash} gas gasPrice hash nonce value from {address} to {address} status}}"}' http://localhost:8547/graphql
 ```
 
-# GraphQL
+</TabItem>
+
+<TabItem value="GraphQL" label="GraphQL">
 
 ```text
 {
@@ -4157,7 +4803,9 @@ curl -X POST -H "Content-Type: application/json" --data '{"query": "{transaction
 }
 ```
 
-# GraphQL result
+</TabItem>
+
+<TabItem value="GraphQL result" label="GraphQL result">
 
 ```json
 {
@@ -4183,7 +4831,9 @@ curl -X POST -H "Content-Type: application/json" --data '{"query": "{transaction
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `eth_getTransactionCount`
 
@@ -4191,23 +4841,25 @@ Returns the number of transactions sent from a specified address. Use the `pendi
 
 #### Parameters
 
-`address`: _string_ - 20-byte account address
+- `address`: _string_ - 20-byte account address
 
-`blockNumber` or `blockHash`: _string_ - hexadecimal or decimal integer representing a block number, block hash, or one of the string tags `latest`, `earliest`, `pending`, `finalized`, or `safe`, as described in [block parameter](../../how-to/use-besu-api/json-rpc.md#block-parameter)
+- `blockNumber` or `blockHash`: _string_ - hexadecimal or decimal integer representing a block number, block hash, or one of the string tags `latest`, `earliest`, `pending`, `finalized`, or `safe`, as described in [block parameter](../../how-to/use-besu-api/json-rpc.md#block-parameter)
 
 #### Returns
 
 `result`: _string_ - integer representing the number of transactions sent from the specified address
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP
+<TabItem value="curl HTTP" label="curl HTTP" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getTransactionCount","params":["0xc94770007dda54cF92009BFF0dE90c06F603a09f","latest"],"id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS
+</TabItem>
+
+<TabItem value="wscat WS" label="wscat WS">
 
 ```json
 {
@@ -4218,7 +4870,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getTransactionCount","params
 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -4228,13 +4882,17 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getTransactionCount","params
 }
 ```
 
-# curl GraphQL
+</TabItem>
+
+<TabItem value="curl GraphQL" label="curl GraphQL">
 
 ```bash
 curl -X POST -H "Content-Type: application/json" --data '{ "query": "{ account (address:\"0xfe3b557e8fb62b89f4916b721be55ceb828dbd73\"){transactionCount}}"}' http://localhost:8547/graphql
 ```
 
-# GraphQL
+</TabItem>
+
+<TabItem value="GraphQL" label="GraphQL">
 
 ```text
 {
@@ -4244,7 +4902,9 @@ curl -X POST -H "Content-Type: application/json" --data '{ "query": "{ account (
 }
 ```
 
-# GraphQL result
+</TabItem>
+
+<TabItem value="GraphQL result" label="GraphQL result">
 
 ```json
 {
@@ -4256,7 +4916,9 @@ curl -X POST -H "Content-Type: application/json" --data '{ "query": "{ account (
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `eth_getTransactionReceipt`
 
@@ -4272,15 +4934,17 @@ If you enabled [revert reason](../../../private-networks/how-to/send-transaction
 
 `result`: _object_ - [transaction receipt object](objects.md#transaction-receipt-object), or `null` when there is no receipt
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP
+<TabItem value="curl HTTP" label="curl HTTP" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getTransactionReceipt","params":["0x504ce587a65bdbdb6414a0c6c16d86a04dd79bfcc4f2950eec9634b30ce5370f"],"id":53}' http://127.0.0.1:8545
 ```
 
-# wscat WS
+</TabItem>
+
+<TabItem value="wscat WS" label="wscat WS">
 
 ```json
 {
@@ -4293,7 +4957,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getTransactionReceipt","para
 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -4317,13 +4983,17 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getTransactionReceipt","para
 }
 ```
 
-# curl GraphQL
+</TabItem>
+
+<TabItem value="curl GraphQL" label="curl GraphQL">
 
 ```bash
 curl -X POST -H "Content-Type: application/json" --data '{"query": "{transaction(hash: \"0x5f5366af89e8777d5ae62a1af94a0876bdccbc22417bed0aff361eefa3e37f86\") {block{hash logsBloom} hash createdContract{address} cumulativeGasUsed gas gasUsed logs{topics} from{address} to{address} index}}"}' http://localhost:8547/graphql
 ```
 
-# GraphQL
+</TabItem>
+
+<TabItem value="GraphQL" label="GraphQL">
 
 ```text
 {
@@ -4353,7 +5023,9 @@ curl -X POST -H "Content-Type: application/json" --data '{"query": "{transaction
 }
 ```
 
-# GraphQL result
+</TabItem>
+
+<TabItem value="GraphQL result" label="GraphQL result">
 
 ```json
 {
@@ -4382,7 +5054,9 @@ curl -X POST -H "Content-Type: application/json" --data '{"query": "{transaction
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `eth_getUncleByBlockHashAndIndex`
 
@@ -4390,9 +5064,9 @@ Returns uncle specified by block hash and index.
 
 #### Parameters
 
-`block`: _string_ - 32-byte block hash
+- `block`: _string_ - 32-byte block hash
 
-`uncleIndex`: _string_ - index of the uncle
+- `uncleIndex`: _string_ - index of the uncle
 
 #### Returns
 
@@ -4404,15 +5078,17 @@ Uncles don't contain individual transactions.
 
 :::
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP
+<TabItem value="curl HTTP" label="curl HTTP" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getUncleByBlockHashAndIndex","params":["0xc48fb64230a82f65a08e7280bd8745e7fea87bc7c206309dee32209fe9a985f7", "0x0"],"id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS
+</TabItem>
+
+<TabItem value="wscat WS" label="wscat WS">
 
 ```json
 {
@@ -4426,7 +5102,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getUncleByBlockHashAndIndex"
 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -4456,13 +5134,17 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getUncleByBlockHashAndIndex"
 }
 ```
 
-# curl GraphQL
+</TabItem>
+
+<TabItem value="curl GraphQL" label="curl GraphQL">
 
 ```bash
 curl -X POST -H "Content-Type: application/json" --data '{ "query": "{block(hash:\"0xc48fb64230a82f65a08e7280bd8745e7fea87bc7c206309dee32209fe9a985f7\"){ ommerAt(index: 0) {difficulty extraData gasLimit gasUsed hash logsBloom mixHash nonce number receiptsRoot stateRoot timestamp totalDifficulty transactionsRoot}}}"}' http://localhost:8547/graphql
 ```
 
-# GraphQL
+</TabItem>
+
+<TabItem value="GraphQL" label="GraphQL">
 
 ```text
 {
@@ -4487,7 +5169,9 @@ curl -X POST -H "Content-Type: application/json" --data '{ "query": "{block(hash
 }
 ```
 
-# GraphQL result
+</TabItem>
+
+<TabItem value="GraphQL result" label="GraphQL result">
 
 ```json
 {
@@ -4512,7 +5196,9 @@ curl -X POST -H "Content-Type: application/json" --data '{ "query": "{block(hash
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `eth_getUncleByBlockNumberAndIndex`
 
@@ -4520,7 +5206,13 @@ Returns uncle specified by block number and index.
 
 #### Parameters
 
-- `blockNumber`: _string_ - hexadecimal or decimal integer representing a block number or one of the string tags `latest`, `earliest`, `pending`, `finalized`, or `safe`, as described in [block parameter](../../how-to/use-besu-api/json-rpc.md#block-parameter)
+- `blockNumber`: _string_ - hexadecimal or decimal integer representing a block number, or one of
+  the string tags `latest`, `earliest`, `pending`, `finalized`, or `safe`, as described in
+  [block parameter](../../how-to/use-besu-api/json-rpc.md#block-parameter)
+
+  :::note
+  `pending` returns the same value as `latest`.
+  :::
 
 - `uncleIndex`: _string_ - index of the uncle
 
@@ -4534,15 +5226,17 @@ Uncles do not contain individual transactions.
 
 :::
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP
+<TabItem value="curl HTTP" label="curl HTTP" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getUncleByBlockNumberAndIndex","params":["0x7689D2", "0x0"],"id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS
+</TabItem>
+
+<TabItem value="wscat WS" label="wscat WS">
 
 ```json
 {
@@ -4553,7 +5247,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getUncleByBlockNumberAndInde
 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -4583,13 +5279,17 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getUncleByBlockNumberAndInde
 }
 ```
 
-# curl GraphQL
+</TabItem>
+
+<TabItem value="curl GraphQL" label="curl GraphQL">
 
 ```bash
 curl -X POST -H "Content-Type: application/json" --data '{ "query": "{block(number:2587){ ommerAt(index: 0) {difficulty extraData gasLimit gasUsed hash logsBloom mixHash nonce number receiptsRoot stateRoot timestamp totalDifficulty transactionsRoot}}}"}' http://localhost:8547/graphql
 ```
 
-# GraphQL
+</TabItem>
+
+<TabItem value="GraphQL" label="GraphQL">
 
 ```text
 {
@@ -4614,7 +5314,9 @@ curl -X POST -H "Content-Type: application/json" --data '{ "query": "{block(numb
 }
 ```
 
-# GraphQL result
+</TabItem>
+
+<TabItem value="GraphQL result" label="GraphQL result">
 
 ```json
 {
@@ -4626,7 +5328,9 @@ curl -X POST -H "Content-Type: application/json" --data '{ "query": "{block(numb
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `eth_getUncleCountByBlockHash`
 
@@ -4640,15 +5344,17 @@ Returns the number of uncles in a block from a block matching the given block ha
 
 `result`: _string_ - integer representing the number of uncles in the specified block
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP
+<TabItem value="curl HTTP" label="curl HTTP" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getUncleCountByBlockHash","params":["0xb903239f8543d04b5dc1ba6579132b143087c68db1b2168786408fcbce568238"],"id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS
+</TabItem>
+
+<TabItem value="wscat WS" label="wscat WS">
 
 ```json
 {
@@ -4661,7 +5367,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getUncleCountByBlockHash","p
 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -4671,13 +5379,17 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getUncleCountByBlockHash","p
 }
 ```
 
-# curl GraphQL
+</TabItem>
+
+<TabItem value="curl GraphQL" label="curl GraphQL">
 
 ```bash
 curl -X POST -H "Content-Type: application/json" --data '{ "query": "{block(hash:\"0x65c08d792e4192b9ece6b6f2390da7da464208b22d88490be8add9373917b426\"){ommerCount}}"}' http://localhost:8547/graphql
 ```
 
-# GraphQL
+</TabItem>
+
+<TabItem value="GraphQL" label="GraphQL">
 
 ```text
 {
@@ -4687,7 +5399,9 @@ curl -X POST -H "Content-Type: application/json" --data '{ "query": "{block(hash
 }
 ```
 
-# GraphQL result
+</TabItem>
+
+<TabItem value="GraphQL result" label="GraphQL result">
 
 ```json
 {
@@ -4699,7 +5413,9 @@ curl -X POST -H "Content-Type: application/json" --data '{ "query": "{block(hash
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `eth_getUncleCountByBlockNumber`
 
@@ -4707,21 +5423,29 @@ Returns the number of uncles in a block matching the specified block number.
 
 #### Parameters
 
-`blockNumber`: _string_ - hexadecimal or decimal integer representing a block number or one of the string tags `latest`, `earliest`, `pending`, `finalized`, or `safe`, as described in [block parameter](../../how-to/use-besu-api/json-rpc.md#block-parameter)
+`blockNumber`: _string_ - hexadecimal or decimal integer representing a block number, or one of
+the string tags `latest`, `earliest`, `pending`, `finalized`, or `safe`, as described in
+[block parameter](../../how-to/use-besu-api/json-rpc.md#block-parameter)
+
+:::note
+`pending` returns the same value as `latest`.
+:::
 
 #### Returns
 
 `result`: _string_ - integer representing the number of uncles in the specified block
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP
+<TabItem value="curl HTTP" label="curl HTTP" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getUncleCountByBlockNumber","params":["0xe8"],"id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS
+</TabItem>
+
+<TabItem value="wscat WS" label="wscat WS">
 
 ```json
 {
@@ -4732,7 +5456,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getUncleCountByBlockNumber",
 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -4742,13 +5468,17 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getUncleCountByBlockNumber",
 }
 ```
 
-# curl GraphQL
+</TabItem>
+
+<TabItem value="curl GraphQL" label="curl GraphQL">
 
 ```bash
 curl -X POST -H "Content-Type: application/json" --data '{ "query": "{block(number:\"0x59fd\"){ommerCount}}"}' http://localhost:8547/graphql
 ```
 
-# GraphQL
+</TabItem>
+
+<TabItem value="GraphQL" label="GraphQL">
 
 ```text
 {
@@ -4758,7 +5488,9 @@ curl -X POST -H "Content-Type: application/json" --data '{ "query": "{block(numb
 }
 ```
 
-# GraphQL result
+</TabItem>
+
+<TabItem value="GraphQL result" label="GraphQL result">
 
 ```json
 {
@@ -4770,7 +5502,9 @@ curl -X POST -H "Content-Type: application/json" --data '{ "query": "{block(numb
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `eth_getWork`
 
@@ -4792,21 +5526,25 @@ None
 
 - `blockNumber`: _string_ - hexadecimal integer representing the current block number
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getWork","params":[],"id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```json
 { "jsonrpc": "2.0", "method": "eth_getWork", "params": [], "id": 1 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -4821,7 +5559,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_getWork","params":[],"id":1}
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `eth_hashrate`
 
@@ -4837,21 +5577,25 @@ None
 
 `result`: _string_ - number of hashes per second
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"eth_hashrate","params":[],"id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```bash
 {"jsonrpc":"2.0","method":"eth_hashrate","params":[],"id":1}
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -4861,7 +5605,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_hashrate","params":[],"id":1
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `eth_mining`
 
@@ -4875,21 +5621,25 @@ None
 
 `result`: _boolean_ - indicates if the client is actively mining new blocks
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"eth_mining","params":[],"id":53}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```json
 { "jsonrpc": "2.0", "method": "eth_mining", "params": [], "id": 53 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -4899,7 +5649,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_mining","params":[],"id":53}
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `eth_newBlockFilter`
 
@@ -4913,21 +5665,25 @@ None
 
 `result`: _string_ - filter ID
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"eth_newBlockFilter","params":[],"id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```json
 { "jsonrpc": "2.0", "method": "eth_newBlockFilter", "params": [], "id": 1 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -4937,7 +5693,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_newBlockFilter","params":[],
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `eth_newFilter`
 
@@ -4957,15 +5715,17 @@ Creates a [log filter](../../concepts/events-and-logs.md). To poll for logs asso
 
 `result`: _string_ - filter ID
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"eth_newFilter","params":[{"fromBlock":"earliest", "toBlock":"latest", "topics":[]}],"id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```json
 {
@@ -4976,7 +5736,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_newFilter","params":[{"fromB
 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -4986,7 +5748,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_newFilter","params":[{"fromB
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `eth_newPendingTransactionFilter`
 
@@ -5000,15 +5764,17 @@ None
 
 `result`: _string_ - filter ID
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"eth_newPendingTransactionFilter","params":[],"id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```json
 {
@@ -5019,7 +5785,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_newPendingTransactionFilter"
 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -5029,7 +5797,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_newPendingTransactionFilter"
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `eth_protocolVersion`
 
@@ -5043,21 +5813,25 @@ None
 
 `result`: _string_ - Ethereum protocol version
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP
+<TabItem value="curl HTTP" label="curl HTTP" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"eth_protocolVersion","params":[],"id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS
+</TabItem>
+
+<TabItem value="wscat WS" label="wscat WS">
 
 ```json
 { "jsonrpc": "2.0", "method": "eth_protocolVersion", "params": [], "id": 1 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -5067,13 +5841,17 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_protocolVersion","params":[]
 }
 ```
 
-# curl GraphQL
+</TabItem>
+
+<TabItem value="curl GraphQL" label="curl GraphQL">
 
 ```bash
 curl -X POST -H "Content-Type: application/json" --data '{ "query": "{protocolVersion}"}' http://localhost:8547/graphql
 ```
 
-# GraphQL
+</TabItem>
+
+<TabItem value="GraphQL" label="GraphQL">
 
 ```text
 {
@@ -5081,7 +5859,9 @@ curl -X POST -H "Content-Type: application/json" --data '{ "query": "{protocolVe
 }
 ```
 
-# GraphQL result
+</TabItem>
+
+<TabItem value="GraphQL result" label="GraphQL result">
 
 ```json
 {
@@ -5091,7 +5871,9 @@ curl -X POST -H "Content-Type: application/json" --data '{ "query": "{protocolVe
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `eth_sendRawTransaction`
 
@@ -5123,15 +5905,17 @@ Besu doesn't implement [`eth_sendTransaction`](../../how-to/send-transactions.md
 
 `result`: _string_ - 32-byte transaction hash
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP
+<TabItem value="curl HTTP" label="curl HTTP" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"eth_sendRawTransaction","params":["0xf869018203e882520894f17f52151ebef6c7334fad080c5704d77216b732881bc16d674ec80000801ba02da1c48b670996dcb1f447ef9ef00b33033c48a4fe938f420bec3e56bfd24071a062e0aa78a81bf0290afbc3a9d8e9a068e6d74caa66c5e0fa8a46deaae96b0833"],"id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS
+</TabItem>
+
+<TabItem value="wscat WS" label="wscat WS">
 
 ```json
 {
@@ -5144,7 +5928,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_sendRawTransaction","params"
 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -5154,13 +5940,17 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_sendRawTransaction","params"
 }
 ```
 
-# curl GraphQL
+</TabItem>
+
+<TabItem value="curl GraphQL" label="curl GraphQL">
 
 ```bash
 curl -X POST -H "Content-Type: application/json" --data '{ "query": "mutation {sendRawTransaction(data: \"0xf869018203e882520894f17f52151ebef6c7334fad080c5704d77216b732881bc16d674ec80000801ba02da1c48b670996dcb1f447ef9ef00b33033c48a4fe938f420bec3e56bfd24071a062e0aa78a81bf0290afbc3a9d8e9a068e6d74caa66c5e0fa8a46deaae96b0833\")}"}' http://localhost:8547/graphql
 ```
 
-# GraphQL
+</TabItem>
+
+<TabItem value="GraphQL" label="GraphQL">
 
 ```text
 mutation {
@@ -5168,7 +5958,9 @@ mutation {
 }
 ```
 
-# GraphQL result
+</TabItem>
+
+<TabItem value="GraphQL result" label="GraphQL result">
 
 ```json
 {
@@ -5178,7 +5970,9 @@ mutation {
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `eth_submitHashrate`
 
@@ -5194,15 +5988,17 @@ Submits the mining hashrate. This is used by mining software such as [Ethminer](
 
 `result`: _boolean_ - indicates if submission is successful
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0", "method":"eth_submitHashrate", "params":["0x0000000000000000000000000000000000000000000000000000000000500000", "0x59daa26581d0acd1fce254fb7e85952f4c09d0915afd33d3886cd914bc7d283c"],"id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```json
 {
@@ -5216,7 +6012,9 @@ curl -X POST --data '{"jsonrpc":"2.0", "method":"eth_submitHashrate", "params":[
 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -5226,7 +6024,9 @@ curl -X POST --data '{"jsonrpc":"2.0", "method":"eth_submitHashrate", "params":[
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `eth_submitWork`
 
@@ -5244,21 +6044,25 @@ Submits a proof of work (Ethash) solution. This is used by mining software such 
 
 `result`: _boolean_ - indicates if the provided solution is valid
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0", "method":"eth_submitWork", "params":["0x0000000000000001", "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef", "0xD1GE5700000000000000000000000000D1GE5700000000000000000000000000"],"id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```bash
 {"jsonrpc":"2.0", "method":"eth_submitWork", "params":["0x0000000000000001", "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef", "0xD1GE5700000000000000000000000000D1GE5700000000000000000000000000"],"id":73}
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -5268,7 +6072,9 @@ curl -X POST --data '{"jsonrpc":"2.0", "method":"eth_submitWork", "params":["0x0
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `eth_syncing`
 
@@ -5298,21 +6104,25 @@ None
 
 - `knownStates`: _string_ - if fast synchronizing, the number of states the node knows of so far, or `null` if this is not known or not relevant (if full synchronizing or fully synchronized, this field is not returned.)
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP
+<TabItem value="curl HTTP" label="curl HTTP" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"eth_syncing","params":[],"id":51}' http://127.0.0.1:8545
 ```
 
-# wscat WS
+</TabItem>
+
+<TabItem value="wscat WS" label="wscat WS">
 
 ```json
 { "jsonrpc": "2.0", "method": "eth_syncing", "params": [], "id": 51 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -5328,13 +6138,17 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_syncing","params":[],"id":51
 }
 ```
 
-# curl GraphQL
+</TabItem>
+
+<TabItem value="curl GraphQL" label="curl GraphQL">
 
 ```bash
 curl -X POST -H "Content-Type: application/json" --data '{ "query": "{syncing{startingBlock currentBlock highestBlock pulledStates knownStates}}"}' http://localhost:8547/graphql
 ```
 
-# GraphQL
+</TabItem>
+
+<TabItem value="GraphQL" label="GraphQL">
 
 ```text
 {
@@ -5348,7 +6162,9 @@ curl -X POST -H "Content-Type: application/json" --data '{ "query": "{syncing{st
 }
 ```
 
-# GraphQL result
+</TabItem>
+
+<TabItem value="GraphQL result" label="GraphQL result">
 
 ```json
 {
@@ -5364,7 +6180,9 @@ curl -X POST -H "Content-Type: application/json" --data '{ "query": "{syncing{st
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `eth_uninstallFilter`
 
@@ -5380,15 +6198,17 @@ Filters time out when not requested by [`eth_getFilterChanges`](#eth_getfilterch
 
 `result`: _boolean_ - indicates if the filter is successfully uninstalled
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"eth_uninstallFilter","params":["0x70355a0b574b437eaa19fe95adfedc0a"],"id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```json
 {
@@ -5399,7 +6219,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_uninstallFilter","params":["
 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -5409,15 +6231,14 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"eth_uninstallFilter","params":["
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ## `MINER` methods
 
-The `MINER` API methods allow you to control: 
-
-* The node’s mining operation.
-* Settings related to block creation. 
-
+The `MINER` API methods allow you to control the node's mining operation, or settings related to
+block creation in general.
 
 :::note
 
@@ -5431,21 +6252,23 @@ Updates the target gas limit set using the [`--target-gas-limit`](../cli/options
 
 #### Parameters
 
-`gasPrice`: _number_ - target gas price in Wei
+`gasPrice`: _number_ - target gas price in wei
 
 #### Returns
 
 `result`: _string_ - `Success` or `error`
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"miner_changeTargetGasLimit","params":[800000], "id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```json
 {
@@ -5456,7 +6279,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"miner_changeTargetGasLimit","par
 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -5466,12 +6291,16 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"miner_changeTargetGasLimit","par
 }
 ```
 
-<!--/tabs-->
+</TabItem>
 
-### `miner_getMinPriorityFee`
+</Tabs>
 
-Gets the minimum priority fee per gas (in Wei) offered by a transaction to be included in a block. The initial value is set using the [`--min-priority-fee`](../cli/options.md#min-priority-fee) command line option, or is set to `0` if the command line option is not specified.
-Use [`miner_setMinPriorityFee`](#minersetminpriorityfee) to change the current value of the fee.
+### `miner_getMinGasPrice`
+
+Gets the minimum gas price (in wei) offered by a transaction to be included in a block.
+The initial value is set using the [`--min-gas-price`](../cli/options.md#min-gas-price) command line
+option, or is set to `1000` if the command line option is not specified.
+Use [`miner_setMinGasPrice`](#miner_setmingasprice) to change the current value of the gas price.
 
 #### Parameters
 
@@ -5479,17 +6308,68 @@ None
 
 #### Returns
 
-`result`: _string_ - Minimum priority fee per gas (in Wei) as a hexadecimal string
+`result`: _string_ - Minimum gas price (in wei) as a hexadecimal string
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
+
+```bash
+curl -X POST --data '{"jsonrpc":"2.0","method":"miner_getMinGasPrice","params":[],"id":1}' http://127.0.0.1:8545
+```
+
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
+
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "miner_getMinGasPrice",
+  "params": [],
+  "id": 1
+}
+```
+
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "result": "0x3e8"
+}
+```
+</TabItem>
+
+</Tabs>
+
+### `miner_getMinPriorityFee`
+
+Gets the minimum priority fee per gas (in wei) offered by a transaction to be included in a block. The initial value is set using the [`--min-priority-fee`](../cli/options.md#min-priority-fee) command line option, or is set to `0` if the command line option is not specified.
+Use [`miner_setMinPriorityFee`](#miner_setminpriorityfee) to change the current value of the fee.
+
+#### Parameters
+
+None
+
+#### Returns
+
+`result`: _string_ - Minimum priority fee per gas (in wei) as a hexadecimal string
+
+<Tabs>
+
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"miner_getMinPriorityFee","params":[],"id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```json
 {
@@ -5500,7 +6380,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"miner_getMinPriorityFee","params
 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -5509,7 +6391,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"miner_getMinPriorityFee","params
   "result": "0x1"
 }
 ```
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `miner_setCoinbase`
 
@@ -5529,15 +6413,17 @@ You can also use `miner_setEtherbase` as an alternative method. They both work t
 
 `result`: _boolean_ - `true` when address is set
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"miner_setCoinbase","params":["0xFE3B557E8Fb62b89F4916B721be55cEb828dBd73"],"id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```json
 {
@@ -5548,7 +6434,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"miner_setCoinbase","params":["0x
 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -5558,30 +6446,86 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"miner_setCoinbase","params":["0x
 }
 ```
 
-<!--/tabs-->
+</TabItem>
 
-### `miner_setMinPriorityFee`
+</Tabs>
 
-Sets the minimum priority fee per gas (in Wei) offered by a transaction to be included in a block. The initial value is set using the [`--min-priority-fee`](../cli/options.md#min-priority-fee) command line option, or is set to `0` if the command line option is not specified.
-Use [`miner_getMinPriorityFee`](#minergetminpriorityfee) to get the current value of the fee.
+### `miner_setMinGasPrice`
+
+Sets the minimum gas price (in wei) offered by a transaction to be included in a block.
+The initial value is set using the [`--min-gas-price`](../cli/options.md#min-gas-price) command line
+option, or is set to `1000` if the command line option is not specified.
+Use [`miner_getMinGasPrice`](#miner_getmingasprice) to get the current value of the gas price.
 
 #### Parameters
 
-`minPriorityFeePerGas`: _string_ - Minimum priority fee per gas in hexadecimal. 
+`minGasPrice`: _string_ - Minimum gas price in hexadecimal
 
 #### Returns
 
-`result`: _boolean_ - `true` when fee is set
+`result`: _boolean_ - `true` when the gas price is set
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
+
+```bash
+curl -X POST --data '{"jsonrpc":"2.0","method":"miner_setMinGasPrice","params":["0x5dc"],"id":1}' http://127.0.0.1:8545
+```
+
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
+
+```json
+{
+  "jsonrpc": "2.0",
+  "method": "miner_setMinGasPrice",
+  "params": ["0x5dc"],
+  "id": 1
+}
+```
+
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "result": true
+}
+```
+
+</TabItem>
+
+</Tabs>
+
+### `miner_setMinPriorityFee`
+
+Sets the minimum priority fee per gas (in wei) offered by a transaction to be included in a block. The initial value is set using the [`--min-priority-fee`](../cli/options.md#min-priority-fee) command line option, or is set to `0` if the command line option is not specified.
+Use [`miner_getMinPriorityFee`](#miner_getminpriorityfee) to get the current value of the fee.
+
+#### Parameters
+
+`minPriorityFeePerGas`: _string_ - Minimum priority fee per gas in hexadecimal
+
+#### Returns
+
+`result`: _boolean_ - `true` when the fee is set
+
+<Tabs>
+
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"miner_setMinPriorityFee","params":["0x0a"],"id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```json
 {
@@ -5592,7 +6536,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"miner_setMinPriorityFee","params
 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -5602,7 +6548,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"miner_setMinPriorityFee","params
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `miner_start`
 
@@ -5616,21 +6564,25 @@ None
 
 `result`: _boolean_ - `true` if mining starts, or if the node is already mining
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"miner_start","params":[],"id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```json
 { "jsonrpc": "2.0", "method": "miner_start", "params": [], "id": 1 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -5640,7 +6592,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"miner_start","params":[],"id":1}
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `miner_stop`
 
@@ -5654,21 +6608,25 @@ None
 
 `result`: _boolean_ - `true` if mining stops, or if the node is not mining
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"miner_stop","params":[],"id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```json
 { "jsonrpc": "2.0", "method": "miner_stop", "params": [], "id": 1 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -5678,7 +6636,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"miner_stop","params":[],"id":1}'
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ## `NET` methods
 
@@ -5696,21 +6656,25 @@ None
 
 `result`: _string_ - [enode URL](../../concepts/node-keys.md#enode-url) of the node
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"net_enode","params":[],"id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```bash
 {"jsonrpc":"2.0","method":"net_enode","params":[],"id":1}
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -5720,7 +6684,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"net_enode","params":[],"id":1}' 
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `net_listening`
 
@@ -5734,21 +6700,25 @@ None
 
 `result`: _boolean_ - indicates if the client is actively listening for network connections
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"net_listening","params":[],"id":53}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```bash
 {"jsonrpc":"2.0","method":"net_listening","params":[],"id":53}
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -5758,7 +6728,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"net_listening","params":[],"id":
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `net_peerCount`
 
@@ -5772,21 +6744,25 @@ None
 
 `result`: _string_ - number of connected peers in hexadecimal
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"net_peerCount","params":[],"id":53}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```json
 { "jsonrpc": "2.0", "method": "net_peerCount", "params": [], "id": 53 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -5796,7 +6772,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"net_peerCount","params":[],"id":
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `net_services`
 
@@ -5816,21 +6794,25 @@ None
 
 `result`: _object_ - enabled services
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"net_services","params":[],"id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```bash
 {"jsonrpc":"2.0","method":"net_services","params":[],"id":1}
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -5853,7 +6835,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"net_services","params":[],"id":1
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `net_version`
 
@@ -5870,7 +6854,7 @@ None
 | Network ID | Chain | Network | Description                   |
 | ---------- | ----- | ------- | ----------------------------- |
 | `1`        | ETH   | Mainnet | Main Ethereum network         |
-| `5`        | ETH   | Goerli  | PoS test network              |
+| `17000`    | ETH   | Holesky | PoS test network              |
 | `11155111` | ETH   | Sepolia | PoS test network              |
 | `2018`     | ETH   | Dev     | PoW development network       |
 | `1`        | ETC   | Classic | Main Ethereum Classic network |
@@ -5884,21 +6868,25 @@ The only networks in the table above with different network and chain IDs are Cl
 
 :::
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"net_version","params":[],"id":53}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```json
 { "jsonrpc": "2.0", "method": "net_version", "params": [], "id": 53 }
 ```
 
-# JSON result for Mainnet
+</TabItem>
+
+<TabItem value="JSON result for Mainnet" label="JSON result for Mainnet">
 
 ```json
 {
@@ -5908,7 +6896,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"net_version","params":[],"id":53
 }
 ```
 
-# JSON result for Goerli
+</TabItem>
+
+<TabItem value="JSON result for Holesky" label="JSON result for Holesky"> 
 
 ```json
 {
@@ -5918,7 +6908,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"net_version","params":[],"id":53
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ## `PLUGINS` methods
 
@@ -5942,15 +6934,17 @@ Reloads specified plugin configuration.
 
 `result`: _string_ - `Success`
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"plugins_reloadPluginConfig","params":["tech.pegasys.plus.plugin.kafka.KafkaPlugin"],"id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```json
 {
@@ -5961,7 +6955,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"plugins_reloadPluginConfig","par
 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -5971,7 +6967,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"plugins_reloadPluginConfig","par
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ## `TRACE` methods
 
@@ -5987,35 +6985,46 @@ The `TRACE` API methods are not enabled by default for JSON-RPC. To enable the `
 
 Provides transaction processing of [type `trace`](../trace-types.md#trace) for the specified block.
 
-:::tip
-
-Your node must be an archive node (that is, synchronized without pruning or fast sync) or the requested block must be within the number of [blocks retained](../cli/options.md#pruning-blocks-retained) with [pruning enabled](../cli/options.md#pruning-enabled) (by default, 1024).
-
+:::info note
+Your node must be an [archive node](../../get-started/connect/sync-node.md#run-an-archive-node), or
+the requested block must be within the number of
+[blocks retained](../cli/options.md#bonsai-historical-block-limit) when using
+[Bonsai](../../concepts/data-storage-formats.md#bonsai-tries) (by default, 512 from the head of the chain).
 :::
 
 #### Parameters
 
-`blockNumber`: _string_ - hexadecimal or decimal integer representing a block number or one of the string tags `latest`, `earliest`, `pending`, `finalized`, or `safe`, as described in [block parameter](../../how-to/use-besu-api/json-rpc.md#block-parameter)
+`blockNumber`: _string_ - hexadecimal or decimal integer representing a block number, or one of
+the string tags `latest`, `earliest`, `pending`, `finalized`, or `safe`, as described in
+[block parameter](../../how-to/use-besu-api/json-rpc.md#block-parameter)
+
+:::note
+`pending` returns the same value as `latest`.
+:::
 
 #### Returns
 
 `result`: _array_ of _objects_ - list of [calls to other contracts](../trace-types.md#trace) containing one object per call, in transaction execution order; if revert reason is enabled with [`--revert-reason-enabled`](../cli/options.md#revert-reason-enabled), the returned list items include the [revert reason](../../../private-networks/how-to/send-transactions/revert-reason.md).
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"trace_block","params":["0x6"],"id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```json
 { "jsonrpc": "2.0", "method": "trace_block", "params": ["0x6"], "id": 1 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -6077,23 +7086,31 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"trace_block","params":["0x6"],"i
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `trace_call`
 
 Executes the given call and returns a number of possible traces for it.
 
-:::info
-
-The requested transaction must be contained in a block within the number of [blocks retained](../cli/options.md#pruning-blocks-retained) with [pruning enabled](../cli/options.md#pruning-enabled) (by default, 1024).
-
+:::info note
+When using [Bonsai](../../concepts/data-storage-formats.md#bonsai-tries), the requested block must
+be within the number of [blocks retained](../cli/options.md#bonsai-historical-block-limit) (by
+default, 512 from the head of the chain).
 :::
 
 #### Parameters
 
 - `call`: _object_ - [transaction call object](objects.md#transaction-call-object)
 
-- `blockNumber`: _string_ - hexadecimal or decimal integer representing a block number or one of the string tags `latest`, `earliest`, `pending`, `finalized`, or `safe`, as described in [block parameter](../../how-to/use-besu-api/json-rpc.md#block-parameter)
+- `blockNumber`: _string_ - hexadecimal or decimal integer representing a block number, or one of
+  the string tags `latest`, `earliest`, `pending`, `finalized`, or `safe`, as described in
+  [block parameter](../../how-to/use-besu-api/json-rpc.md#block-parameter)
+
+  :::note
+  `pending` returns the same value as `latest`.
+  :::
 
 - `options`: _array_ of _strings_ - list of tracing options; tracing options are [`trace`, `vmTrace`, and `stateDiff`](../trace-types.md). Specify any combination of the three options including none of them.
 
@@ -6101,15 +7118,17 @@ The requested transaction must be contained in a block within the number of [blo
 
 `result`: _array_ of _objects_ - list of [calls to other contracts](../trace-types.md#trace) containing one object per call, in transaction execution order
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"trace_call","params":[{"from":"0xfe3b557e8fb62b89f4916b721be55ceb828dbd73","to":"0x0010000000000000000000000000000000000000","gas":"0xfffff2","gasPrice":"0xef","value":"0x0","data":"0x0000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000002","nonce":"0x0"},["trace"],"latest"],"id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```json
 {
@@ -6132,7 +7151,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"trace_call","params":[{"from":"0
 }
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -6163,43 +7184,55 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"trace_call","params":[{"from":"0
 },
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `trace_callMany`
 
 Performs multiple call traces on top of the same block. You can trace dependent transactions.
 
-:::info
-
-The requested block must be within the number of [blocks retained](../cli/options.md#pruning-blocks-retained) with [pruning enabled](../cli/options.md#pruning-enabled) (by default, 1024).
-
+:::info note
+When using [Bonsai](../../concepts/data-storage-formats.md#bonsai-tries), the requested block must
+be within the number of [blocks retained](../cli/options.md#bonsai-historical-block-limit) (by
+default, 512 from the head of the chain).
 :::
 
 #### Parameters
 
 - `options`: _array_ of _strings_ - list of tracing options; tracing options are [`trace`, `vmTrace`, and `stateDiff`](../trace-types.md). Specify any combination of the three options including none of them.
 
-- `blockNumber`: _string_ - hexadecimal or decimal integer representing a block number or one of the string tags `latest`, `earliest`, `pending`, `finalized`, or `safe`, as described in [block parameter](../../how-to/use-besu-api/json-rpc.md#block-parameter)
+- `blockNumber`: _string_ - hexadecimal or decimal integer representing a block number, or one of
+  the string tags `latest`, `earliest`, `pending`, `finalized`, or `safe`, as described in
+  [block parameter](../../how-to/use-besu-api/json-rpc.md#block-parameter)
+
+  :::note
+  `pending` returns the same value as `latest`.
+  :::
 
 #### Returns
 
 `result`: _array_ of _objects_ - list of [calls to other contracts](../trace-types.md#trace) containing one object per call, in transaction execution order
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"trace_callMany","params":[[[{"from":"0x407d73d8a49eeb85d32cf465507dd71d507100c1","to":"0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b","value":"0x186a0"},["trace"]],[{"from":"0x407d73d8a49eeb85d32cf465507dd71d507100c1","to":"0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b","value":"0x186a0"},["trace"]]],"latest"],"id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```json
 {"jsonrpc":"2.0","method":"trace_callMany","params":[[[{"from":"0x407d73d8a49eeb85d32cf465507dd71d507100c1","to":"0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b","value":"0x186a0"},["trace"]],[{"from":"0x407d73d8a49eeb85d32cf465507dd71d507100c1","to":"0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b","value":"0x186a0"},["trace"]]],"latest"],"latest"],"id":1}
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -6254,16 +7287,19 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"trace_callMany","params":[[[{"fr
 },
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### `trace_filter`
 
-Returns traces matching the specified filter.
+Returns traces matching the specified filter. The maximum number of blocks you can supply to `trace_filter` is 1000 by default. You can adjust this limit using the [`--rpc-max-trace-filter-range`](../cli/options.md#rpc-max-trace-filter-range) option. 
 
-:::info
-
-Your node must be an archive node (that is, synchronized without pruning or fast sync) or the requested block must be within the number of [blocks retained](../cli/options.md#pruning-blocks-retained) with [pruning enabled](../cli/options.md#pruning-enabled) (by default, 1024).
-
+:::info note
+Your node must be an [archive node](../../get-started/connect/sync-node.md#run-an-archive-node), or
+the requested blocks must be within the number of
+[blocks retained](../cli/options.md#bonsai-historical-block-limit) when using
+[Bonsai](../../concepts/data-storage-formats.md#bonsai-tries) (by default, 512 from the head of the chain).
 :::
 
 #### Parameters
@@ -6274,15 +7310,16 @@ Your node must be an archive node (that is, synchronized without pruning or fast
 
 `result`: _array_ of _objects_ - list of [calls to other contracts](../trace-types.md#trace) containing one object per call, in transaction execution order
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"trace_filter","params":[{"fromBlock":"0x1","toBlock":"0x21","after":2,"count":2,"fromAddress":["0xfe3b557e8fb62b89f4916b721be55ceb828dbd73"]}],"id":415}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```json
 {
@@ -6301,7 +7338,8 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"trace_filter","params":[{"fromBl
 }
 ```
 
-# JSON result
+</TabItem>
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -6354,16 +7392,18 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"trace_filter","params":[{"fromBl
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+</Tabs>
 
 ### `trace_get`
 
-Returns trace at given position.
+Returns a trace at the given position.
 
-:::info
-
-Your node must be an archive node (that is, synchronized without pruning or fast sync) or the requested transaction must be contained in a block within the number of [blocks retained](../cli/options.md#pruning-blocks-retained) with [pruning enabled](../cli/options.md#pruning-enabled) (by default, 1024).
-
+:::info note
+Your node must be an [archive node](../../get-started/connect/sync-node.md#run-an-archive-node), or
+the requested transaction must be contained in a block within the number of
+[blocks retained](../cli/options.md#bonsai-historical-block-limit) when using
+[Bonsai](../../concepts/data-storage-formats.md#bonsai-tries) (by default, 512 from the head of the chain).
 :::
 
 #### Parameters
@@ -6376,15 +7416,16 @@ Your node must be an archive node (that is, synchronized without pruning or fast
 
 `result`: _array_ of _objects_ - list of [calls to other contracts](../trace-types.md#trace) containing one object per call, in the order called by the transaction
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"trace_get","params":["0x17104ac9d3312d8c136b7f44d4b8b47852618065ebfa534bd2d3b5ef218ca1f3",["0x0"]],"id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```json
 {
@@ -6398,7 +7439,8 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"trace_get","params":["0x17104ac9
 }
 ```
 
-# JSON result
+</TabItem>
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -6430,16 +7472,18 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"trace_get","params":["0x17104ac9
 },
 ```
 
-<!--/tabs-->
+</TabItem>
+</Tabs>
 
 ### `trace_rawTransaction`
 
 Traces a call to `eth_sendRawTransaction` without making the call, returning the traces.
 
-:::info
-
-The requested transaction must be contained in a block within the number of [blocks retained](../cli/options.md#pruning-blocks-retained) with [pruning enabled](../cli/options.md#pruning-enabled) (by default, 1024).
-
+:::info note
+When using [Bonsai](../../concepts/data-storage-formats.md#bonsai-tries), the requested transaction
+must be contained in a block within the number of
+[blocks retained](../cli/options.md#bonsai-historical-block-limit) (by default, 512 from the head of
+the chain).
 :::
 
 #### Parameters
@@ -6452,15 +7496,16 @@ The requested transaction must be contained in a block within the number of [blo
 
 `result`: _array_ of _objects_ - list of [calls to other contracts](../trace-types.md#trace) containing one object per call, in the order called by the transaction
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"trace_rawTransaction","params":["0xd46e8dd67c5d32be8d46e8dd67c5d32be8058bb8eb970870f072445675058bb8eb970870f072445675",["trace"]],"id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```json
 {
@@ -6474,7 +7519,8 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"trace_rawTransaction","params":[
 }
 ```
 
-# JSON result
+</TabItem>
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -6499,23 +7545,28 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"trace_rawTransaction","params":[
 },
 ```
 
-<!--/tabs-->
+</TabItem>
+</Tabs>
 
 ### `trace_replayBlockTransactions`
 
 Provides transaction processing tracing per block.
 
-:::info
-
-When using [Bonsai](../../concepts/data-storage-formats.md#bonsai-tries), the requested block must be within the number of [blocks retained](../cli/options.md#bonsai-historical-block-limit) (by default, 512 from the head of the chain).
-
-When using [Forest](../../concepts/data-storage-formats.md#forest-of-tries), the requested block must be within the number of [blocks retained](../cli/options.md#pruning-blocks-retained) with [pruning enabled](../cli/options.md#pruning-enabled) (by default, 1024 from head of the chain).
-
+:::info note
+When using [Bonsai](../../concepts/data-storage-formats.md#bonsai-tries), the requested block must
+be within the number of [blocks retained](../cli/options.md#bonsai-historical-block-limit) (by
+default, 512 from the head of the chain).
 :::
 
 #### Parameters
 
-- `blockNumber`: _string_ - hexadecimal or decimal integer representing a block number or one of the string tags `latest`, `earliest`, `pending`, `finalized`, or `safe`, as described in [block parameter](../../how-to/use-besu-api/json-rpc.md#block-parameter)
+- `blockNumber`: _string_ - hexadecimal or decimal integer representing a block number, or one of
+  the string tags `latest`, `earliest`, `pending`, `finalized`, or `safe`, as described in
+  [block parameter](../../how-to/use-besu-api/json-rpc.md#block-parameter)
+
+  :::note
+  `pending` returns the same value as `latest`.
+  :::
 
 - `options`: _array_ of _strings_ - list of tracing options; tracing options are [`trace`, `vmTrace`, and `stateDiff`](../trace-types.md). Specify any combination of the three options including none of them.
 
@@ -6523,15 +7574,16 @@ When using [Forest](../../concepts/data-storage-formats.md#forest-of-tries), the
 
 `result`: _array_ of _objects_ - list of [transaction trace objects](objects.md#transaction-trace-object) containing one object per transaction, in transaction execution order; if revert reason is enabled with [`--revert-reason-enabled`](../cli/options.md#revert-reason-enabled), the [`trace`](../trace-types.md#trace) list items in the returned transaction trace object include the [revert reason](../../../private-networks/how-to/send-transactions/revert-reason.md).
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc": "2.0", "method": "trace_replayBlockTransactions","params": ["0x12",["trace","vmTrace","stateDiff"]],"id": 1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```json
 {
@@ -6542,7 +7594,8 @@ curl -X POST --data '{"jsonrpc": "2.0", "method": "trace_replayBlockTransactions
 }
 ```
 
-# JSON result
+</TabItem>
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -6616,16 +7669,18 @@ curl -X POST --data '{"jsonrpc": "2.0", "method": "trace_replayBlockTransactions
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+</Tabs>
 
 ### `trace_transaction`
 
 Provides transaction processing of [type `trace`](../trace-types.md#trace) for the specified transaction.
 
-:::info
-
-Your node must be an archive node (that is, synchronized without pruning or fast sync) or the requested transaction must be contained in a block within the number of [blocks retained](../cli/options.md#pruning-blocks-retained) with [pruning enabled](../cli/options.md#pruning-enabled) (by default, 1024).
-
+:::info note
+Your node must be an [archive node](../../get-started/connect/sync-node.md#run-an-archive-node), or
+the requested transaction must be contained in a block within the number of
+[blocks retained](../cli/options.md#bonsai-historical-block-limit) when using
+[Bonsai](../../concepts/data-storage-formats.md#bonsai-tries) (by default, 512 from the head of the chain).
 :::
 
 #### Parameters
@@ -6636,15 +7691,16 @@ Your node must be an archive node (that is, synchronized without pruning or fast
 
 `result`: _array_ of _objects_ - list of [calls to other contracts](../trace-types.md#trace) containing one object per call, in the order called by the transaction; if revert reason is enabled with [`--revert-reason-enabled`](../cli/options.md#revert-reason-enabled), the returned list items include the [revert reason](../../../private-networks/how-to/send-transactions/revert-reason.md).
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc": "2.0", "method": "trace_transaction","params": ["0x4c253746668dca6ac3f7b9bc18248b558a95b5fc881d140872c2dff984d344a7"],"id": 1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```json
 {
@@ -6657,7 +7713,8 @@ curl -X POST --data '{"jsonrpc": "2.0", "method": "trace_transaction","params": 
 }
 ```
 
-# JSON result
+</TabItem>
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -6746,7 +7803,8 @@ curl -X POST --data '{"jsonrpc": "2.0", "method": "trace_transaction","params": 
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+</Tabs>
 
 ## `TXPOOL` methods
 
@@ -6801,15 +7859,16 @@ The only supported `action` is `"contract_creation"`.
 
 `result`: _array_ of _objects_ - list of objects with [details of the pending transaction](objects.md#pending-transaction-object)
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"txpool_besuPendingTransactions","params":[2,{"from":{"eq":"0xfe3b557e8fb62b89f4916b721be55ceb828dbd73"},"gas":{"lt":"0x5209"},"nonce":{"gt":"0x1"}}],"id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```json
 {
@@ -6827,7 +7886,8 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"txpool_besuPendingTransactions",
 }
 ```
 
-# JSON result
+</TabItem>
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -6851,7 +7911,8 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"txpool_besuPendingTransactions",
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+</Tabs>
 
 ### `txpool_besuStatistics`
 
@@ -6871,21 +7932,23 @@ None
 
 - `remoteCount`: _number_ - number of transactions received from remote nodes
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"txpool_besuStatistics","params":[],"id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```bash
 {"jsonrpc":"2.0","method":"txpool_besuStatistics","params":[],"id":1}
 ```
 
-# JSON result
+</TabItem>
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -6899,7 +7962,8 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"txpool_besuStatistics","params":
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+</Tabs>
 
 ### `txpool_besuTransactions`
 
@@ -6913,21 +7977,23 @@ None
 
 `result`: _array_ of _objects_ - list of transactions
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"txpool_besuTransactions","params":[],"id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```json
 { "jsonrpc": "2.0", "method": "txpool_besuTransactions", "params": [], "id": 1 }
 ```
 
-# JSON result
+</TabItem>
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -6948,7 +8014,8 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"txpool_besuTransactions","params
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+</Tabs>
 
 ## `WEB3` methods
 
@@ -6966,21 +8033,23 @@ None
 
 `result`: _string_ - current client version
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"web3_clientVersion","params":[],"id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```json
 { "jsonrpc": "2.0", "method": "web3_clientVersion", "params": [], "id": 1 }
 ```
 
-# JSON result
+</TabItem>
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -6990,7 +8059,8 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"web3_clientVersion","params":[],
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+</Tabs>
 
 ### `web3_sha3`
 
@@ -7004,15 +8074,16 @@ Returns a [SHA3](https://en.wikipedia.org/wiki/SHA-3) hash of the specified data
 
 `result`: _string_ - SHA3 result of the input data
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"web3_sha3","params":["0x68656c6c6f20776f726c00"],"id":53}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```json
 {
@@ -7023,7 +8094,8 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"web3_sha3","params":["0x68656c6c
 }
 ```
 
-# JSON result
+</TabItem>
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -7033,7 +8105,8 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"web3_sha3","params":["0x68656c6c
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+</Tabs>
 
 ## Miscellaneous methods
 
@@ -7049,21 +8122,23 @@ None
 
 `result`: _map_ of _strings_ to _strings_ - enabled APIs and their versions
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"rpc_modules","params":[],"id":1}' http://127.0.0.1:8545
 ```
 
-# wscat WS request
+</TabItem>
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```bash
 {"jsonrpc":"2.0","method":"rpc_modules","params":[],"id":1}
 ```
 
-# JSON result
+</TabItem>
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -7077,7 +8152,8 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"rpc_modules","params":[],"id":1}
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+</Tabs>
 
 <!-- Links -->
 

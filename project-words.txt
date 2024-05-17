@@ -171,6 +171,7 @@ entrypoints
 envr
 epochlength
 errnametoolong
+Esat
 esbenp
 esbuild
 eslintcache
@@ -293,6 +294,7 @@ keyalg
 keyfile
 keyid
 keymanager
+keypair
 keyscan
 keysize
 keystorstore
@@ -529,6 +531,7 @@ reqs
 requesttimeout
 requesttimeoutseconds
 requireindex
+resynced
 resyncs
 retesteth
 retrocompatibility
@@ -539,6 +542,8 @@ rmiz
 roadmap
 rocketvalidator
 rocksdb
+rollup
+rollups
 rootca
 rpcapi
 rpcprefix
@@ -572,11 +577,13 @@ sluggifies
 sluggify
 smartcard
 solana
+Somer
 spâce
 ssszzz
 stackblitz
 stackblitzrc
 staker
+stakers
 statefulset
 storepass
 storeraw

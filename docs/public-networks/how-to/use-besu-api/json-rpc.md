@@ -8,6 +8,8 @@ tags:
 ---
 
 import Postman from '../../../global/postman.md';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # Use JSON-RPC over HTTP, WebSocket, and IPC
 
@@ -38,28 +40,36 @@ The geth console is a REPL (Read, Evaluate, & Print Loop) JavaScript console. Us
 To use the geth console with Besu:
 
 1. Start Besu with the [`--rpc-http-enabled`](../../reference/cli/options.md#rpc-http-enabled) or `--Xrpc-ipc-enabled` option.
-1. Specify which APIs to enable using the [`--rpc-http-api`](../../reference/cli/options.md#rpc-http-api) or `--Xrpc-ipc-api` option.
-1. Start the geth console specifying the JSON-RPC endpoint:
 
-<!--tabs-->
+2. Specify which APIs to enable using the [`--rpc-http-api`](../../reference/cli/options.md#rpc-http-api) or `--Xrpc-ipc-api` option.
 
-# HTTP endpoint
+3. Start the geth console specifying the JSON-RPC endpoint:
 
-```bash
-geth attach http://localhost:8545
-```
+    <Tabs>
+    
+    <TabItem value="HTTP endpoint" label="HTTP endpoint" default>
+    
+    ```bash
+    geth attach http://localhost:8545
+    ```
+    
+    </TabItem>
+    
+    <TabItem value="IPC endpoint" label="IPC endpoint">
+    
+    ```bash
+    geth attach /path/to/besu.ipc
+    ```
+    
+    </TabItem>
+    
+    </Tabs>
 
-# IPC endpoint
+4. Use the geth console to call [JSON-RPC API methods](../../reference/api/index.md) that geth and Besu share.
 
-```bash
-geth attach /path/to/besu.ipc
-```
-
-Use the geth console to call [JSON-RPC API methods](../../reference/api/index.md) that geth and Besu share.
-
-```bash
-eth.syncing
-```
+    ```bash
+    eth.syncing
+    ```
 
 ## JSON-RPC authentication
 
@@ -71,21 +81,25 @@ Besu disables [Authentication](authenticate.md) by default.
 
 To make RPC requests over HTTP, you can use [`curl`](https://curl.haxx.se/download.html).
 
-<!--tabs-->
+<Tabs>
 
-# Syntax
+<TabItem value="Syntax" label="Syntax" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","id":<request-ID>,"method":"<method-name>","params":[<method-parameters>]}' <JSON-RPC-http-endpoint:port>
 ```
 
-# curl HTTP request
+</TabItem>
+
+<TabItem value="curl HTTP request" label="curl HTTP request">
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","id":"1","method":"eth_blockNumber","params":[]}' http://127.0.0.1:8555
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -95,19 +109,23 @@ curl -X POST --data '{"jsonrpc":"2.0","id":"1","method":"eth_blockNumber","param
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 You can use `curl` to make multiple RPC requests (batch requests) over HTTP at the same time. Send the requests as an array, and receive an array of responses. The default number of allowed requests in a RPC batch request is `1024`. Use the [`--rpc-http-max-batch-size`](../../reference/cli/options.md#rpc-http-max-batch-size) command line option to update the default value.
 
-<!--tabs-->
+<Tabs>
 
-# curl HTTP request
+<TabItem value="curl HTTP request" label="curl HTTP request" default>
 
 ```bash
 curl -X POST --data '[{"jsonrpc":"2.0","id":"1","method":"eth_blockNumber","params":[]}, {"jsonrpc":"2.0","id":"2","method":"admin_peers","params":[]}]' http://127.0.0.1:8555
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 [
@@ -124,7 +142,9 @@ curl -X POST --data '[{"jsonrpc":"2.0","id":"1","method":"eth_blockNumber","para
 ]
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### WebSocket
 
@@ -138,21 +158,25 @@ wscat -c ws://<JSON-RPC-ws-endpoint:port>
 
 After you establish a connection, the terminal displays a '>' prompt. Send individual requests as a JSON data package at each prompt.
 
-<!--tabs-->
+<Tabs>
 
-# Syntax
+<TabItem value="Syntax" label="Syntax" default>
 
 ```bash
 {"jsonrpc":"2.0","id":<request-ID>,"method":"<method-name>","params":[<method-parameters>]}
 ```
 
-# wscat WS request
+</TabItem>
+
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```bash
 {"jsonrpc":"2.0","id":"1","method":"eth_blockNumber","params":[]}
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 {
@@ -162,19 +186,23 @@ After you establish a connection, the terminal displays a '>' prompt. Send indiv
 }
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 You can use `wscat` to make multiple RPC requests over WebSocket at the same time. Send the requests as an array, and receive an array of responses.
 
-<!--tabs-->
+<Tabs>
 
-# wscat WS request
+<TabItem value="wscat WS request" label="wscat WS request">
 
 ```bash
 [{"jsonrpc":"2.0","id":"1","method":"eth_blockNumber","params":[]}, {"jsonrpc":"2.0","id":"2","method":"admin_peers","params":[]}]
 ```
 
-# JSON result
+</TabItem>
+
+<TabItem value="JSON result" label="JSON result">
 
 ```json
 [
@@ -191,7 +219,9 @@ You can use `wscat` to make multiple RPC requests over WebSocket at the same tim
 ]
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 :::note
 
@@ -209,47 +239,57 @@ By default, the readiness check requires a connected peer and the node to be wit
 
 Use the query parameters `minPeers` and `maxBlocksBehind` to adjust the number of peers required and the number of blocks tolerance.
 
-<!--tabs-->
+<Tabs>
 
-# Readiness endpoint
+<TabItem value="Readiness endpoint" label="Readiness endpoint" default>
 
 ```bash
 http://<JSON-RPC-HTTP-endpoint:port>/readiness
 ```
 
-# curl request example
+</TabItem>
+
+<TabItem value="curl request example" label="curl request example">
 
 ```bash
 curl -v 'http://localhost:8545/readiness'
 ```
 
-# Query parameters example
+</TabItem>
+
+<TabItem value="Query parameters example" label="Query parameters example">
 
 ```bash
 curl -v 'http://localhost:8545/readiness?minPeers=0&maxBlocksBehind=10'
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ### Liveness
 
 The liveness check requires the JSON-RPC server to be up. You can use the endpoint to verify that the node can respond to RPC calls. The status in the response will always be `UP`.
 
-<!--tabs-->
+<Tabs>
 
-# Liveness endpoint
+<TabItem value="Liveness endpoint" label="Liveness endpoint" default>
 
 ```bash
 http://<JSON-RPC-HTTP-endpoint:port>/liveness
 ```
 
-# curl request example
+</TabItem>
+
+<TabItem value="curl request example" label="curl request example">
 
 ```bash
 curl -v 'http://localhost:8545/liveness'
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 ## API methods enabled by default
 
@@ -265,12 +305,19 @@ To enable the `ADMIN`, `CLIQUE`, `DEBUG`, `EEA`, `IBFT`, `MINER`, `PERM`, `PLUGI
 
 ## Block parameter
 
-When you make requests that might have different results depending on the block accessed, the block parameter specifies the block. Methods such as [`eth_getTransactionByBlockNumberAndIndex`](../../reference/api/index.md#eth_gettransactionbyblocknumberandindex) have a block parameter.
+When you make requests that might have different results depending on the block accessed, the block
+parameter specifies the block.
+Methods such as [`eth_getTransactionByBlockNumberAndIndex`](../../reference/api/index.md#eth_gettransactionbyblocknumberandindex)
+have a block parameter.
 
 The block parameter can have one of the following values:
 
-- `blockNumber` : _quantity_ - The block number, specified in hexadecimal or decimal. 0 represents the genesis block.
-- `blockHash` : _string_ or _object_ - 32-byte block hash or JSON object specifying the block hash. If using a JSON object, you can specify `requireCanonical` to indicate whether the block must be a canonical block. See [this example](https://github.com/hyperledger/besu/blob/a2dedb0b2c7980cdc35db8eb4c094f2eb0dc7deb/ethereum/api/src/test/resources/org/hyperledger/besu/ethereum/api/jsonrpc/eth/eth_getBalance_blockHashObjectCanonical.json).
+- `blockNumber` : _quantity_ - The block number, specified in hexadecimal or decimal.
+  `0` represents the genesis block.
+- `blockHash` : _string_ or _object_ - 32-byte block hash or JSON object specifying the block hash.
+  If using a JSON object, you can specify `requireCanonical` to indicate whether the block must be a
+  canonical block.
+  See [this example](https://github.com/hyperledger/besu/blob/a2dedb0b2c7980cdc35db8eb4c094f2eb0dc7deb/ethereum/api/src/test/resources/org/hyperledger/besu/ethereum/api/jsonrpc/eth/eth_getBalance_blockHashObjectCanonical.json).
 
   :::note
 
@@ -287,6 +334,11 @@ The block parameter can have one of the following values:
 
 - `earliest` : _tag_ - The earliest (genesis) block.
 - `latest` : _tag_ - The last block mined.
-- `pending` : _tag_ - The last block mined plus pending transactions. Use only with [`eth_getTransactionCount`](../../reference/api/index.md#eth_gettransactioncount).
-- `finalized` : _tag_ - The most recent crypto-economically secure block. It cannot be reorganized outside manual intervention driven by community coordination.
-- `safe` : _tag_ - The most recent block that is safe from reorganization under honest majority and certain synchronicity assumptions.
+- `pending` : _tag_ - When used with [`eth_getTransactionCount`](../../reference/api/index.md#eth_gettransactioncount),
+  refers to the last block mined plus pending transactions.
+  When used with [`qbft_getValidatorsByBlockNumber`](../../../private-networks/reference/api/index.md#qbft_getvalidatorsbyblocknumber),
+  returns a list of validators that will be used to produce the next block.
+- `finalized` : _tag_ - The most recent crypto-economically secure block.
+  It cannot be reorganized outside manual intervention driven by community coordination.
+- `safe` : _tag_ - The most recent block that is safe from reorganization under honest majority and
+  certain synchronicity assumptions.

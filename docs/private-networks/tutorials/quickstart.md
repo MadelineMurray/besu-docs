@@ -10,6 +10,9 @@ import TestAccounts from '../../global/test_accounts.md';
 
 import Postman from '../../global/postman.md';
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Developer Quickstart
 
 The Quorum Developer Quickstart uses the Hyperledger Besu Docker image to run a private [IBFT 2.0](../how-to/configure/consensus/ibft.md) network of Besu nodes managed by Docker Compose.
@@ -182,9 +185,9 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"web3_clientVersion","params":[],
 
 The result displays the client version of the running node:
 
-<!--tabs-->
+<Tabs>
 
-# Result example
+<TabItem value="Result example" label="Result example" default>
 
 ```json
 {
@@ -194,7 +197,9 @@ The result displays the client version of the running node:
 }
 ```
 
-# Result explanation
+</TabItem>
+
+<TabItem value="Result explanation" label="Result explanation">
 
 - `"jsonrpc" : "2.0"` indicates that the JSON-RPC 2.0 spec format is used.
 - `"id" : 1` is the request identifier used to match the request and the response. This tutorial always uses 1.
@@ -203,7 +208,9 @@ The result displays the client version of the running node:
   - `linux-x86_64` is the architecture used to build this version.
   - `oracle_openjdk-java-11` is the JVM type and version used to build this version. This may be different when you run this tutorial.
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 Successfully calling this method shows that you can connect to the nodes using JSON-RPC over HTTP.
 
@@ -259,9 +266,9 @@ Navigate to the `smart_contracts` directory and deploy the public transaction:
 ```bash
 cd smart_contracts
 npm install
-node scripts/public/public_tx.js
+node scripts/public/hre_1559_public_tx.js
 # or via ethers
-node scripts/public/public_tx_ethers.js
+node scripts/public/hre_public_tx.js
 ```
 
 This deploys the contract and sends an arbitrary value (`47`) from `Member1` to `Member3`. The script then performs:
@@ -302,7 +309,7 @@ and deploy the `eth_tx` transaction:
 ```bash
 cd smart_contracts
 npm install
-node scripts/public/eth_tx.js
+node scripts/public/hre_eth_tx.js
 ```
 
 The output is as follows:
@@ -392,7 +399,6 @@ npm run deploy-quorumtoken
 The output is similar to the following:
 
 ```bash
-
 # compile
 > quorumToken@1.0.0 compile
 > npx hardhat compile
@@ -431,8 +437,7 @@ npm run dev
 ```
 This starts the dapp, binding it to port `3001` on your machine.
 
-```text
-
+```bash
 > webapp@0.1.0 dev
 > next dev -p 3001
 

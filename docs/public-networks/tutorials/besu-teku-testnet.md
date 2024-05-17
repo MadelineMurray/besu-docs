@@ -1,14 +1,17 @@
 ---
 title: Run Besu and Teku on a testnet
 sidebar_position: 2
-description: Run Besu and Teku on Goerli or Sepolia testnet.
+description: Run Besu and Teku on Holesky or Sepolia testnet.
 tags:
   - public networks
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Run Besu and Teku on a testnet
 
-Run Besu as an [execution client](../concepts/the-merge.md#execution-clients) and [Teku](https://docs.teku.consensys.net/) as a [consensus client](../concepts/the-merge.md#consensus-clients) on the [Goerli](https://github.com/eth-clients/goerli) and [Sepolia](https://github.com/eth-clients/sepolia) Ethereum testnets.
+Run Besu as an [execution client](../concepts/the-merge.md#execution-clients) and [Teku](https://docs.teku.consensys.net/) as a [consensus client](../concepts/the-merge.md#consensus-clients) on the [Holesky](https://github.com/eth-clients/holesky) and [Sepolia](https://github.com/eth-clients/sepolia) Ethereum testnets.
 
 :::note
 
@@ -38,7 +41,7 @@ You will specify `jwtsecret.hex` when starting Besu and Teku. This is a shared J
 
 If you're running Teku as a beacon node only, skip to the [next step](#4-start-besu).
 
-If you're also running Teku as a validator client, create a test Ethereum address (you can do this in [MetaMask](https://metamask.zendesk.com/hc/en-us/articles/360015289452-How-to-create-an-additional-account-in-your-wallet)). Fund this address with testnet ETH (32 ETH and gas fees for each validator) using a faucet. See the list of [Goerli faucets](https://github.com/eth-clients/goerli#meta-data-g%C3%B6rli) and [Sepolia faucets](https://github.com/eth-clients/sepolia#meta-data-sepolia).
+If you're also running Teku as a validator client, create a test Ethereum address (you can do this in [MetaMask](https://metamask.zendesk.com/hc/en-us/articles/360015289452-How-to-create-an-additional-account-in-your-wallet)). Fund this address with testnet ETH (32 ETH and gas fees for each validator) using a faucet. See the list of [Holesky faucets](https://github.com/eth-clients/holesky) and [Sepolia faucets](https://github.com/eth-clients/sepolia#meta-data-sepolia).
 
 :::note
 
@@ -46,7 +49,7 @@ If you can't get ETH using the faucet, you can ask for help on the [EthStaker Di
 
 :::
 
-Generate validator keys for one or more validators using the [Goerli Staking Launchpad](https://goerli.launchpad.ethereum.org/) (or [request to become validator on Sepolia](https://notes.ethereum.org/zvkfSmYnT0-uxwwEegbCqg)).
+Generate validator keys for one or more validators using the [Holesky Staking Launchpad](https://holesky.launchpad.ethereum.org/) (or [request to become validator on Sepolia](https://notes.ethereum.org/zvkfSmYnT0-uxwwEegbCqg)).
 
 :::info
 
@@ -56,15 +59,15 @@ Save the password you use to generate each key pair in a `.txt` file. You should
 
 ## 4. Start Besu
 
-Run the following command or specify the options in a [configuration file](../how-to/configuration-file.md):
+Run the following command or specify the options in a [configuration file](../how-to/use-configuration-file/index.md):
 
-<!--tabs-->
+<Tabs>
 
-# Goerli
+<TabItem value="Holesky" label="Holesky" default>
 
 ```bash
 besu \
-  --network=goerli            \
+  --network=holesky           \
   --rpc-http-enabled=true     \
   --rpc-http-host=0.0.0.0     \
   --rpc-http-cors-origins="*" \
@@ -76,7 +79,9 @@ besu \
   --engine-jwt-secret=<path to jwtsecret.hex>
 ```
 
-# Sepolia
+</TabItem>
+
+<TabItem value="Sepolia" label="Sepolia">
 
 ```bash
 besu \
@@ -92,7 +97,9 @@ besu \
   --engine-jwt-secret=<path to jwtsecret.hex>
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 Specify the path to the `jwtsecret.hex` file generated in [step 2](#2-generate-the-shared-secret) using the [`--engine-jwt-secret`](../reference/cli/options.md#engine-jwt-secret) option.
 
@@ -106,20 +113,23 @@ Open a new terminal window.
 
 To run Teku as a beacon node only (without validator duties), run the following command or specify the options in the [Teku configuration file]:
 
-<!--tabs-->
+<Tabs>
 
-# Goerli
+<TabItem value="Holesky" label="Holesky" default>
 
 ```bash
 teku \
-  --network=goerli                             \
+  --network=holesky                            \
   --ee-endpoint=http://localhost:8551          \
   --ee-jwt-secret-file=<path to jwtsecret.hex> \
   --metrics-enabled=true                       \
-  --rest-api-enabled=true
+  --rest-api-enabled=true                      \
+  --checkpoint-sync-url=<checkpoint sync URL>
 ```
 
-# Sepolia
+</TabItem>
+
+<TabItem value="Sepolia" label="Sepolia">
 
 ```bash
 teku \
@@ -127,12 +137,20 @@ teku \
   --ee-endpoint=http://localhost:8551          \
   --ee-jwt-secret-file=<path to jwtsecret.hex> \
   --metrics-enabled=true                       \
-  --rest-api-enabled=true
+  --rest-api-enabled=true                      \
+  --checkpoint-sync-url=<checkpoint sync URL>
 ```
 
-<!--/tabs-->
+</TabItem>
 
-Specify the path to the `jwtsecret.hex` file generated in [step 2](#2-generate-the-shared-secret) using the [`--ee-jwt-secret-file`](https://docs.teku.consensys.net/Reference/CLI/CLI-Syntax/#ee-jwt-secret-file) option.
+</Tabs>
+
+Specify:
+
+- The path to the `jwtsecret.hex` file generated in [step 2](#2-generate-the-shared-secret) using the
+  [`--ee-jwt-secret-file`](https://docs.teku.consensys.io/reference/cli#ee-jwt-secret-file) option.
+- The URL of a checkpoint sync endpoint using the
+  [`--checkpoint-sync-url`](https://docs.teku.consensys.io/reference/cli#checkpoint-sync-url) option.
 
 You can modify the option values and add other [Teku command line options] as needed.
 
@@ -140,32 +158,46 @@ You can modify the option values and add other [Teku command line options] as ne
 
 To run Teku as a beacon node and validator in a single process, run the following command or specify the options in the [Teku configuration file]:
 
-<!--tabs-->
+<Tabs>
 
-# Goerli
+<TabItem value="Holesky" label="Holesky" default>
 
 ```bash
 teku \
-  --network=goerli                                          \
+  --network=holesky                                         \
   --ee-endpoint=http://localhost:8551                       \
   --ee-jwt-secret-file=<path to jwtsecret.hex>              \
   --metrics-enabled=true                                    \
   --rest-api-enabled=true                                   \
+  --checkpoint-sync-url=<checkpoint sync URL>               \
   --validators-proposer-default-fee-recipient=<ETH address> \
   --validator-keys=<path to key file>:<path to password file>[,<path to key file>:<path to password file>,...]
 ```
 
-# Sepolia
+</TabItem>
+
+<TabItem value="Sepolia" label="Sepolia">
 
 Sepolia is a permissioned network and you can't run a validator client on it without [requesting to become a validator](https://notes.ethereum.org/zvkfSmYnT0-uxwwEegbCqg) first.
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 Specify:
 
-- The path to the `jwtsecret.hex` file generated in [step 2](#2-generate-the-shared-secret) using the [`--ee-jwt-secret-file`](https://docs.teku.consensys.net/Reference/CLI/CLI-Syntax/#ee-jwt-secret-file) option.
-- The test Ethereum address created in [step 3](#3-generate-validator-keys) as the default fee recipient using the [`--validators-proposer-default-fee-recipient`](https://docs.teku.consensys.net/Reference/CLI/CLI-Syntax/#validators-proposer-default-fee-recipient) option.
-- The paths to the keystore `.json` file and password `.txt` file created in [step 3](#3-generate-validator-keys) for each validator using the [`--validator-keys`](https://docs.teku.consensys.net/Reference/CLI/CLI-Syntax/#validator-keys) option. Separate the `.json` and `.txt` files with a colon, and separate entries for multiple validators with commas.
+- The path to the `jwtsecret.hex` file generated in [step 2](#2-generate-the-shared-secret) using the
+  [`--ee-jwt-secret-file`](https://docs.teku.consensys.io/reference/cli#ee-jwt-secret-file) option.
+- The URL of a checkpoint sync endpoint using the
+  [`--checkpoint-sync-url`](https://docs.teku.consensys.io/reference/cli#checkpoint-sync-url) option.
+- The test Ethereum address created in [step 3](#3-generate-validator-keys) as the default fee
+  recipient using the
+  [`--validators-proposer-default-fee-recipient`](https://docs.teku.consensys.io/reference/cli#validators-proposer-default-fee-recipient)
+  option.
+- The paths to the keystore `.json` file and password `.txt` file created in
+  [step 3](#3-generate-validator-keys) for each validator using the
+  [`--validator-keys`](https://docs.teku.consensys.io/reference/cli#validator-keys) option.
+  Separate the `.json` and `.txt` files with a colon, and separate entries for multiple validators with commas.
 
 You can modify the option values and add other [Teku command line options] as needed.
 
@@ -173,9 +205,9 @@ You can modify the option values and add other [Teku command line options] as ne
 
 After starting Besu and Teku, your node starts syncing and connecting to peers.
 
-<!--tabs-->
+<Tabs>
 
-# Besu logs
+<TabItem value="Besu logs" label="Besu logs" default>
 
 ```json
 {"@timestamp":"2023-02-03T04:43:49,555","level":"INFO","thread":"main","class":"DefaultSynchronizer","message":"Starting synchronizer.","throwable":""}
@@ -192,7 +224,9 @@ cb9f0fcc6f16386df70da3c5). State root 0xa7114541f42c62a72c8b6bb9901c2ccf4b424cd7
 {"@timestamp":"2023-02-03T04:51:28,985","level":"INFO","thread":"EthScheduler-Services-29 (importBlock)","class":"FastImportBlocksStep","message":"Block import progress: 180400 of 16545859 (1%)","throwable":""}
 ```
 
-# Teku logs
+</TabItem>
+
+<TabItem value="Teku logs" label="Teku logs">
 
 ```bash
 2022-03-21 20:43:24.355 INFO  - Syncing     *** Target slot: 76092, Head slot: 2680, Remaining slots: 73412, Connected peers: 8
@@ -202,15 +236,17 @@ cb9f0fcc6f16386df70da3c5). State root 0xa7114541f42c62a72c8b6bb9901c2ccf4b424cd7
 2022-03-21 20:44:12.353 INFO  - Syncing     *** Target slot: 76096, Head slot: 3519, Remaining slots: 72577, Connected peers: 9
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 If you're running Teku as a beacon node only, you're all set. If you're also running Teku as a validator client, ensure Besu and Teku are fully synced before submitting your staking deposit in the next step. Syncing Besu can take several days.
 
 ## 7. Stake ETH
 
-Stake your testnet ETH for one or more validators using the [Goerli Staking Launchpad](https://goerli.launchpad.ethereum.org/).
+Stake your testnet ETH for one or more validators using the [Holesky Staking Launchpad](https://holesky.launchpad.ethereum.org/).
 
-You can check your validator status by searching your Ethereum address on the [Goerli Beacon Chain explorer](https://goerli.beaconcha.in/). It may take up to multiple days for your validator to be activated and start proposing blocks.
+You can check your validator status by searching your Ethereum address on the [Holesky Beacon Chain explorer](https://holesky.beaconcha.in/). It may take up to multiple days for your validator to be activated and start proposing blocks.
 
 <!--links-->
 

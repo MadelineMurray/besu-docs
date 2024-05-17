@@ -7,6 +7,9 @@ tags:
   - private networks
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Subcommands
 
 This reference describes the syntax of the Hyperledger Besu command line interface (CLI) subcommands.
@@ -35,21 +38,25 @@ Provides blocks related actions.
 
 ### `import`
 
-<!--tabs-->
+<Tabs>
 
-# Syntax
+<TabItem value="Syntax" label="Syntax" default>
 
 ```bash
 besu blocks import [--skip-pow-validation-enabled] [--start-block=<LONG>] [--end-block=<LONG>] --from=<block-file>
 ```
 
-# Example
+</TabItem>
+
+<TabItem value="Example" label="Example">
 
 ```bash
 besu blocks import --skip-pow-validation-enabled --start-block=100 --end-block=300 --from=/home/me/me_project/mainnet-export1.blocks --from=/home/me/me_project/mainnet-export2.blocks
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 Imports a block or range of blocks from the specified file into the blockchain database.
 
@@ -69,21 +76,25 @@ Use `--skip-pow-validation-enabled` when performing [Ethereum Foundation hive te
 
 ### `export`
 
-<!--tabs-->
+<Tabs>
 
-# Syntax
+<TabItem value="Syntax" label="Syntax" default>
 
 ```bash
 besu blocks export [--start-block=<LONG>] [--end-block=<LONG>] --to=<block-file>
 ```
 
-# Example
+</TabItem>
+
+<TabItem value="Example" label="Example">
 
 ```bash
-besu --network=goerli --data-path=/home/data/ blocks export --start-block=100 --end-block=300 --to=/home/exportblock.bin
+besu --network=holesky --data-path=/home/data/ blocks export --start-block=100 --end-block=300 --to=/home/exportblock.bin
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 Exports a block or range of blocks from storage to a file in RLP format.
 
@@ -97,21 +108,25 @@ Provides operator actions.
 
 ### `generate-log-bloom-cache`
 
-<!--tabs-->
+<Tabs>
 
-# Syntax
+<TabItem value="Syntax" label="Syntax" default>
 
 ```bash
 besu operator generate-log-bloom-cache [--start-block=<BLOCK_NUMBER>] [--end-block=<BLOCK_NUMBER>]
 ```
 
-# Example
+</TabItem>
+
+<TabItem value="Example" label="Example">
 
 ```bash
-besu --network=goerli --data-path=/project/goerli operator generate-log-bloom-cache --start-block=0 --end-block=100000
+besu --network=holesky --data-path=/project/holesky operator generate-log-bloom-cache --start-block=0 --end-block=100000
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 :::tip
 
@@ -135,21 +150,25 @@ Provides password related actions.
 
 ### `hash`
 
-<!--tabs-->
+<Tabs>
 
-# Syntax
+<TabItem value="Syntax" label="Syntax" default>
 
 ```bash
 besu password hash --password=<my-password>
 ```
 
-# Example
+</TabItem>
+
+<TabItem value="Example" label="Example">
 
 ```bash
 besu password hash --password=myPassword123
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 Generates the hash of a given password. Include the hash in the [credentials file](../../how-to/use-besu-api/authenticate.md#credentials-file) for JSON-RPC API [authentication](../../how-to/use-besu-api/authenticate.md).
 
@@ -165,73 +184,89 @@ To get the public key or address of a node, ensure you use the [`--data-path`](o
 
 ### `export`
 
-<!--tabs-->
+<Tabs>
 
-# Syntax
+<TabItem value="Syntax" label="Syntax" default>
 
 ```bash
 besu public-key export [--node-private-key-file=<file>] [--to=<key-file>] [--ec-curve=<ec-curve-name>]
 ```
 
-# Example (to standard output)
+</TabItem>
+
+<TabItem value="Example to standard output" label="Example (to standard output)">
 
 ```bash
 besu --data-path=<node data path> public-key export --node-private-key-file=/home/me/me_node/myPrivateKey --ec-curve=secp256k1
 ```
 
-# Example (to file)
+</TabItem>
+
+<TabItem value="Example to file" label="Example (to file)">
 
 ```bash
 besu --data-path=<node data path> public-key export --node-private-key-file=/home/me/me_node/myPrivateKey --to=/home/me/me_project/not_precious_pub_key --ec-curve=secp256k1
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 Outputs the node public key to standard output or to the file specified by `--to=<key-file>`. You can output the public key associated with a specific private key file using the [`--node-private-key-file`](options.md#node-private-key-file) option. The default elliptic curve used for the key is `secp256k1`. Use the `--ec-curve` option to choose between `secp256k1` or `secp256r1`.
 
 ### `export-address`
 
-<!--tabs-->
+<Tabs>
 
-# Syntax
+<TabItem value="Syntax" label="Syntax" default>
 
 ```bash
 besu public-key export-address [--node-private-key-file=<file>] [--to=<address-file>] [--ec-curve=<ec-curve-name>]
 ```
 
-# Example (to standard output)
+</TabItem>
+
+<TabItem value="Example to standard output" label="Example (to standard output)">
 
 ```bash
 besu --data-path=<node data path> public-key export-address --node-private-key-file=/home/me/me_node/myPrivateKey --ec-curve=secp256k1
 ```
 
-# Example (to file)
+</TabItem>
+
+<TabItem value="Example to file" label="Example (to file)">
 
 ```bash
 besu --data-path=<node data path> public-key export-address --node-private-key-file=/home/me/me_node/myPrivateKey --to=/home/me/me_project/me_node_address --ec-curve=secp256k1
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 Outputs the node address to standard output or to the file specified by `--to=<address-file>`. You can output the address associated with a specific private key file using the [`--node-private-key-file`](options.md#node-private-key-file) option. The default elliptic curve used for the key is `secp256k1`. Use the `--ec-curve` option to choose between `secp256k1` or `secp256r1`.
 
 ## `retesteth`
 
-<!--tabs-->
+<Tabs>
 
-# Syntax
+<TabItem value="Syntax" label="Syntax" default>
 
 ```bash
 besu retesteth [--data-path=<PATH>] [--rpc-http-host=<HOST>] [--rpc-http-port=<PORT>] [-l=<LOG VERBOSITY LEVEL>] [--host-allowlist=<hostname>[,<hostname>…]… or * or all]
 ```
 
-# Example
+</TabItem>
+
+<TabItem value="Example" label="Example">
 
 ```bash
 besu retesteth --data-path=/home/me/me_node --rpc-http-port=8590 --host-allowlist=*
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 Runs a Retesteth-compatible server. [Retesteth](https://github.com/ethereum/retesteth/wiki) is a developer tool that can generate and run consensus tests against any Ethereum client running such a server.
 
@@ -247,45 +282,100 @@ The command accepts the following command line options:
 
 Provides storage related actions.
 
+### `revert-metadata`
+
+<Tabs>
+
+<TabItem value="Syntax" label="Syntax" default>
+
+```bash
+besu storage revert-metadata v2-to-v1
+```
+
+</TabItem>
+
+</Tabs>
+
+Reverts the modifications made by the [database metadata refactor](https://github.com/hyperledger/besu/pull/6555).
+If you need to downgrade Besu, run this subcommand before installing the previous binaries.
+
 ### `revert-variables`
 
-<!--tabs-->
+<Tabs>
 
-# Syntax
+<TabItem value="Syntax" label="Syntax" default>
 
 ```bash
 besu storage revert-variables --config-file <PATH-TO-CONFIG-FILE>
 ```
 
-# Example
+</TabItem>
+
+<TabItem value="Example" label="Example">
 
 ```bash
 besu storage revert-variables --config-file ../besu-local-nodes/config/besu/besu1.conf
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 Reverts the modifications made by the [variables storage feature](https://github.com/hyperledger/besu/pull/5471).
 If you need to downgrade Besu, first run this subcommand specifying the path to
-the [configuration file](../../how-to/configuration-file.md) normally used to
+the [configuration file](../../how-to/use-configuration-file/index.md) normally used to
 start Besu.
 
 ## `validate-config`
 
-<!--tabs-->
+<Tabs>
 
-# Syntax
+<TabItem value="Syntax" label="Syntax" default>
 
 ```bash
 besu validate-config --config-file <PATH-TO-CONFIG-FILE>
 ```
 
-# Example
+</TabItem>
+
+<TabItem value="Example" label="Example">
 
 ```bash
 besu validate-config --config-file ../besu-local-nodes/config/besu/besu1.conf
 ```
 
-<!--/tabs-->
+</TabItem>
 
-Performs basic syntax validation of the specified [configuration file](../../how-to/configuration-file.md). Checks TOML syntax (for example, valid format and unmatched quotes) and flags unknown options. Doesn't check data types, and doesn't check dependencies between options (this is done at Besu startup).
+</Tabs>
+
+Performs basic syntax validation of the specified [configuration file](../../how-to/use-configuration-file/index.md). Checks TOML syntax (for example, valid format and unmatched quotes) and flags unknown options. Doesn't check data types, and doesn't check dependencies between options (this is done at Besu startup).
+
+## `decode`
+
+Provides RLP decoding functionality for BFT encoded RLP extra data.
+
+### `rlp`
+
+<Tabs>
+
+<TabItem value="Syntax" label="Syntax" default>
+
+```bash
+besu rlp decode [--format=<FORMAT>] [--input=<RLP>]
+```
+
+</TabItem>
+
+<TabItem value="Example" label="Example">
+
+```bash
+besu rlp decode --format=IBFT_LEGACY --input=0xf9011a...
+```
+
+</TabItem>
+
+</Tabs>
+
+Decodes the RLP (Recursive Length Prefix) encoded data. You can specify the format of the BFT encoded RLP extra data with `--format`. The supported formats are `IBFT_LEGACY`, `IBFT2`, and `QBFT`.
+
+Include the RLP encoded data to decode with `--input`. The input should be a hex string representing the RLP encoded data.

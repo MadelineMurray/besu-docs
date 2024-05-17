@@ -2,9 +2,13 @@
 title: Create a permissioned network
 sidebar_position: 1
 description: Hyperledger Besu create a permissioned network
+toc_max_heading_level: 3
 tags:
   - private networks
 ---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # Create a permissioned network
 
@@ -180,21 +184,25 @@ Use the [`perm_addNodesToAllowlist`](../../reference/api/index.md#perm_addnodest
 
 Use the following command:
 
-<!--tabs-->
+<Tabs>
 
-# MacOS
+<TabItem value="MacOS" label="MacOS" default>
 
 ```bash
 besu --data-path=data --genesis-file=../genesis.json --permissions-nodes-config-file-enabled --permissions-accounts-config-file-enabled --rpc-http-enabled --rpc-http-api=ADMIN,ETH,NET,PERM,IBFT --host-allowlist="*" --rpc-http-cors-origins="*"
 ```
 
-# Windows
+</TabItem>
+
+<TabItem value="Windows" label="Windows">
 
 ```bash
 besu --data-path=data --genesis-file=..\genesis.json --permissions-nodes-config-file-enabled --permissions-accounts-config-file-enabled --rpc-http-enabled --rpc-http-api=ADMIN,ETH,NET,PERM,IBFT --host-allowlist="*" --rpc-http-cors-origins="*"
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 The command line allows you to enable:
 
@@ -212,21 +220,25 @@ When the node starts, the [enode URL](../../../public-networks/concepts/node-key
 
 Start another terminal, change to the `Node-2` directory, and start Node-2:
 
-<!--tabs-->
+<Tabs>
 
-# MacOS
+<TabItem value="MacOS" label="MacOS" default>
 
 ```bash
 besu --data-path=data --genesis-file=../genesis.json --permissions-nodes-config-file-enabled --permissions-accounts-config-file-enabled --rpc-http-enabled --rpc-http-api=ADMIN,ETH,NET,PERM,IBFT --host-allowlist="*" --rpc-http-cors-origins="*" --p2p-port=30304 --rpc-http-port=8546
 ```
 
-# Windows
+</TabItem>
+
+<TabItem value="Windows" label="Windows">
 
 ```bash
 besu --data-path=data --genesis-file=..\genesis.json --permissions-nodes-config-file-enabled --permissions-accounts-config-file-enabled --rpc-http-enabled --rpc-http-api=ADMIN,ETH,NET,PERM,IBFT --host-allowlist="*" --rpc-http-cors-origins="*" --p2p-port=30304 --rpc-http-port=8546
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 The command line specifies:
 
@@ -241,21 +253,25 @@ When the node starts, the [enode URL](../../../public-networks/concepts/node-key
 
 Start another terminal, change to the `Node-3` directory, and start Node-3:
 
-<!--tabs-->
+<Tabs>
 
-# MacOS
+<TabItem value="MacOS" label="MacOS" default>
 
 ```bash
 besu --data-path=data --genesis-file=../genesis.json --permissions-nodes-config-file-enabled --permissions-accounts-config-file-enabled --rpc-http-enabled --rpc-http-api=ADMIN,ETH,NET,PERM,IBFT --host-allowlist="*" --rpc-http-cors-origins="*" --p2p-port=30305 --rpc-http-port=8547
 ```
 
-# Windows
+</TabItem>
+
+<TabItem value="Windows" label="Windows">
 
 ```bash
 besu --data-path=data --genesis-file=..\genesis.json --permissions-nodes-config-file-enabled --permissions-accounts-config-file-enabled --rpc-http-enabled --rpc-http-api=ADMIN,ETH,NET,PERM,IBFT --host-allowlist="*" --rpc-http-cors-origins="*" --p2p-port=30305 --rpc-http-port=8547
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 The command line specifies:
 
@@ -270,21 +286,25 @@ When the node starts, the [enode URL](../../../public-networks/concepts/node-key
 
 Start another terminal, change to the `Node-4` directory, and start Node-4:
 
-<!--tabs-->
+<Tabs>
 
-# MacOS
+<TabItem value="MacOS" label="MacOS" default>
 
 ```bash
 besu --data-path=data --genesis-file=../genesis.json --permissions-nodes-config-file-enabled --permissions-accounts-config-file-enabled --rpc-http-enabled --rpc-http-api=ADMIN,ETH,NET,PERM,IBFT --host-allowlist="*" --rpc-http-cors-origins="*" --p2p-port=30306 --rpc-http-port=8548
 ```
 
-# Windows
+</TabItem>
+
+<TabItem value="Windows" label="Windows">
 
 ```bash
 besu --data-path=data --genesis-file=..\genesis.json --permissions-nodes-config-file-enabled --permissions-accounts-config-file-enabled --rpc-http-enabled --rpc-http-api=ADMIN,ETH,NET,PERM,IBFT --host-allowlist="*" --rpc-http-cors-origins="*" --p2p-port=30306 --rpc-http-port=8548
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 The command line specifies:
 
@@ -301,33 +321,41 @@ Start another terminal and use the [`perm_addNodesToAllowlist`](../../reference/
 
 Replace `<EnodeNode1>`, `<EnodeNode2>`, `<EnodeNode3>`, and `<EnodeNode4>` with the enode URL displayed when starting each node.
 
-<!--tabs-->
+<Tabs>
 
-# Node-1
+<TabItem value="Node-1" label="Node-1" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"perm_addNodesToAllowlist","params":[["<EnodeNode1>","<EnodeNode2>","<EnodeNode3>","EnodeNode4"]], "id":1}' http://127.0.0.1:8545
 ```
 
-# Node-2
+</TabItem>
+
+<TabItem value="Node-2" label="Node-2">
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"perm_addNodesToAllowlist","params":[["<EnodeNode1>","<EnodeNode2>","<EnodeNode3>","EnodeNode4"]], "id":1}' http://127.0.0.1:8546
 ```
 
-# Node-3
+</TabItem>
+
+<TabItem value="Node-3" label="Node-3">
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"perm_addNodesToAllowlist","params":[["<EnodeNode1>","<EnodeNode2>","<EnodeNode3>","EnodeNode4"]], "id":1}' http://127.0.0.1:8547
 ```
 
-# Node-4
+</TabItem>
+
+<TabItem value="Node-4" label="Node-4">
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"perm_addNodesToAllowlist","params":[["<EnodeNode1>","<EnodeNode2>","<EnodeNode3>","EnodeNode4"]], "id":1}' http://127.0.0.1:8548
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 :::tip
 
@@ -341,27 +369,33 @@ Use the [`admin_addPeer`](../../../public-networks/reference/api/index.md#admin_
 
 Replace `<EnodeNode1>` with the enode URL displayed when starting Node-1.
 
-<!--tabs-->
+<Tabs>
 
-# Node-2
+<TabItem value="Node-2" label="Node-2" default>
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"admin_addPeer","params":["<EnodeNode1>"],"id":1}' http://127.0.0.1:8546
 ```
 
-# Node-3
+</TabItem>
+
+<TabItem value="Node-3" label="Node-3">
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"admin_addPeer","params":["<EnodeNode1>"],"id":1}' http://127.0.0.1:8547
 ```
 
-# Node-4
+</TabItem>
+
+<TabItem value="Node-4" label="Node-4">
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"admin_addPeer","params":["<EnodeNode1>"],"id":1}' http://127.0.0.1:8548
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 :::tip
 
@@ -371,21 +405,25 @@ The curl call is the same for each node except for the JSON-RPC endpoint.
 
 Replace `<EnodeNode2>` with the enode URL displayed when starting Node-2.
 
-<!--tabs-->
+<Tabs>
 
-# Node-3
+<TabItem value="Node-3" label="Node-3">
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"admin_addPeer","params":["<EnodeNode2>"],"id":1}' http://127.0.0.1:8547
 ```
 
-# Node-4
+</TabItem>
+
+<TabItem value="Node-4" label="Node-4">
 
 ```bash
 curl -X POST --data '{"jsonrpc":"2.0","method":"admin_addPeer","params":["<EnodeNode2>"],"id":1}' http://127.0.0.1:8548
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 Replace `<EnodeNode3>` with the enode URL displayed when starting Node-3.
 
@@ -415,7 +453,7 @@ The result confirms Node-1 (the node running the JSON-RPC service) has three pee
 
 #### Send a transaction from an account in the allowlist
 
-Import the first account from the genesis file into MetaMask and send transactions, as described in [Quickstart tutorial]:
+Import the first account from the genesis file into MetaMask and send transactions, as described in the [Quickstart tutorial]:
 
 :::info Account 1
 
@@ -431,9 +469,9 @@ Besu doesn't support [private key management](../../../public-networks/how-to/se
 
 :::
 
-### Try sending a transaction from an account not in the accounts allowlist
+#### Try sending a transaction from an account not in the accounts allowlist
 
-Import the third account from the genesis file into MetaMask and try to send a transaction, as described in [Quickstart tutorial]:
+Import the third account from the genesis file into MetaMask and try to send a transaction, as described in the [Quickstart tutorial]:
 
 :::info Account 3
 
@@ -443,27 +481,31 @@ Import the third account from the genesis file into MetaMask and try to send a t
 
 :::
 
-### Start a node not on the nodes allowlist
+#### Start a node not on the nodes allowlist
 
 In your `Permissioned-Network` directory, create a `Node-5` directory and `data` directory inside it.
 
 Change to the `Node-5` directory and start Node-5 specifying the Node-1 enode URL as the bootnode:
 
-<!--tabs-->
+<Tabs>
 
-# MacOS
+<TabItem value="MacOS" label="MacOS" default>
 
 ```bash
 besu --data-path=data --bootnodes="<EnodeNode1>" --genesis-file=../genesis.json --rpc-http-enabled --rpc-http-api=ADMIN,ETH,NET,PERM,IBFT --host-allowlist="*" --rpc-http-cors-origins="*" --p2p-port=30307 --rpc-http-port=8549
 ```
 
-# Windows
+</TabItem>
+
+<TabItem value="Windows" label="Windows">
 
 ```bash
 besu --data-path=data --bootnodes="<EnodeNode1>" --genesis-file=..\genesis.json --rpc-http-enabled --rpc-http-api=ADMIN,ETH,NET,PERM,IBFT --host-allowlist="*" --rpc-http-cors-origins="*" --p2p-port=30307 --rpc-http-port=8549
 ```
 
-<!--/tabs-->
+</TabItem>
+
+</Tabs>
 
 Start another terminal and use curl to call the JSON-RPC API [`net_peerCount`](../../../public-networks/reference/api/index.md#net_peercount) method:
 
@@ -483,7 +525,7 @@ The result confirms Node-5 has no peers even though it specifies Node-1 as a boo
 
 ## Stop nodes
 
-When finished using the permissioned network, stop all nodes using ++ctrl+c++ in each terminal window.
+When finished using the permissioned network, stop all nodes using Ctrl+C in each terminal window.
 
 :::tip
 
@@ -494,4 +536,4 @@ To restart the permissioned network in the future, start from [step 7](#7-start-
 <!-- Links -->
 
 [IBFT 2.0 proof of authority consensus protocol]: ../../how-to/configure/consensus/ibft.md
-[Private network example tutorial]: ../quickstart.md#create-a-transaction-using-metamask
+[Quickstart tutorial]: ../quickstart.md#create-a-transaction-using-metamask
