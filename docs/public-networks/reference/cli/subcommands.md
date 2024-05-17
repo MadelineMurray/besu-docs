@@ -202,7 +202,7 @@ besu --data-path=<node data path> public-key export --node-private-key-file=/hom
 
 </TabItem>
 
-<TabItem value="Example to file" label="Example (to file)"> 
+<TabItem value="Example to file" label="Example (to file)">
 
 ```bash
 besu --data-path=<node data path> public-key export --node-private-key-file=/home/me/me_node/myPrivateKey --to=/home/me/me_project/not_precious_pub_key --ec-curve=secp256k1
@@ -349,3 +349,33 @@ besu validate-config --config-file ../besu-local-nodes/config/besu/besu1.conf
 </Tabs>
 
 Performs basic syntax validation of the specified [configuration file](../../how-to/use-configuration-file/index.md). Checks TOML syntax (for example, valid format and unmatched quotes) and flags unknown options. Doesn't check data types, and doesn't check dependencies between options (this is done at Besu startup).
+
+## `decode`
+
+Provides RLP decoding functionality for BFT encoded RLP extra data.
+
+### `rlp`
+
+<Tabs>
+
+<TabItem value="Syntax" label="Syntax" default>
+
+```bash
+besu rlp decode [--format=<FORMAT>] [--input=<RLP>]
+```
+
+</TabItem>
+
+<TabItem value="Example" label="Example">
+
+```bash
+besu rlp decode --format=IBFT_LEGACY --input=0xf9011a...
+```
+
+</TabItem>
+
+</Tabs>
+
+Decodes the RLP (Recursive Length Prefix) encoded data. You can specify the format of the BFT encoded RLP extra data with `--format`. The supported formats are `IBFT_LEGACY`, `IBFT2`, and `QBFT`.
+
+Include the RLP encoded data to decode with `--input`. The input should be a hex string representing the RLP encoded data.
