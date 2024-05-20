@@ -31,6 +31,8 @@ jobs:
           cache: 'yarn'
       - run: yarn --immutable --immutable-cache
       - run: yarn build
+      - name: Print environment variables
+        run: printenv
       - name: Require clean working directory
         shell: bash
         run: |
