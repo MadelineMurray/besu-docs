@@ -590,6 +590,48 @@ curl -X POST --data '{"jsonrpc":"2.0","method":"admin_removePeer","params":["eno
 
 </Tabs>
 
+### `decode` Command
+
+The `decode` command is used to convert encoded data back into its original format. This can be useful in various scenarios, such as decoding base64-encoded strings, decoding URL-encoded data, or handling encoded data in APIs.
+
+#### Usage
+
+The `decode` command can be used in different contexts, including:
+
+- **Base64 Decoding**: Convert Base64 encoded strings back to their original format.
+- **URL Decoding**: Convert URL-encoded data back to its original form.
+- **API Data Handling**: Decode data received from APIs before processing.
+
+#### Examples
+
+**Base64 Decoding Example:**
+
+```bash
+echo "SGVsbG8gd29ybGQ=" | base64 --decode
+```
+
+**URL Decoding Example:**
+
+```bash
+echo "Hello%20world" | python -c "import urllib.parse; print(urllib.parse.unquote(input()))"
+```
+
+**API Data Handling Example:**
+
+When working with APIs, you might receive encoded data that needs to be decoded before processing. Use the `decode` command to convert this data to a usable format.
+
+#### Best Practices
+
+- Ensure data integrity and security when decoding data.
+- Verify the encoding format before decoding to avoid data corruption.
+- Use appropriate libraries or tools for decoding based on the data format.
+
+#### Common Pitfalls
+
+- Incorrect encoding formats can lead to data corruption.
+- Ensure the data is properly encoded before attempting to decode it.
+
+This section provides an overview of the `decode` command, its usage, and best practices to help you effectively handle encoded data in your applications.
 ## `DEBUG` methods
 
 The `DEBUG` API methods allow you to inspect and debug the network. The `DEBUG` API is a more verbose alternative to the [`TRACE` API](#trace-methods), and its main purpose is compatibility with tools such as [Remix](https://remix.ethereum.org/). Where these APIs overlap, we recommend using the [`TRACE` API](#trace-methods) for production use over the `DEBUG` API. Specifically, we recommend `trace_block` over `debug_traceBlock`, and `trace_transaction` over `debug_traceTransaction`.
